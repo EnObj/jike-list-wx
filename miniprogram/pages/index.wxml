@@ -1,0 +1,46 @@
+<view style="margin-right:10px;">
+  <scroll-view scroll-x enable-flex style="display:flex;align-items: flex-start;" scroll-into-view="date-{{locDay.int8Date}}">
+    <view wx:for="{{dateList}}" style="flex:none;padding:5px 10px;" id="date-{{item.int8Date}}" bindtap="switchDate" data-date="{{item}}">
+      <view class="date-list-item {{item.int8Date == currentDate.int8Date ? 'current-date-item':''}}">
+        <view>星期{{item.showWeek}}</view>
+        <view>{{item.showDate}}</view>
+      </view>
+    </view>
+    <view style="color:white;flex:none;padding:5px 10px;margin:auto 0px;text-align:center;font-weight:600;background:gray;border-radius:5px;">
+      <picker mode="date" value="{{today.showDate}}" end="{{today.showDate}}" bindchange="bindDateChange">
+        <view>往日</view>
+        <view>节目单</view>
+      </picker>
+    </view>
+  </scroll-view>
+</view>
+<scroll-view scroll-x enable-flex style="display:flex;align-items: flex-start;" scroll-into-view="channel-{{currentChannel.code}}">
+  <view wx:for="{{channelList}}" style="flex:none;padding:10px;" id="channel-{{item.code}}" bindtap="switchChannel" data-channel="{{item}}">
+    <view class="channel-list-item {{item.code == currentChannel.code ? 'current-channel-item':''}}">
+      <image style="width:60px;height:40px;" mode="aspectFit" wx:if="{{item.logo}}" src="{{item.logo}}"></image>
+      <view wx:else>{{item.code}}</view>
+    </view>
+  </view>
+</scroll-view>
+<view style="margin-bottom:20px;">
+  <view wx:for="{{programList}}" class="program-list-item {{index%2?'program-list-item-odd':''}}">
+    <view style="flex:1;display:flex;">
+      <view style="margin:auto;font-weight:700;">
+        {{item.showTime}}
+      </view>
+    </view>
+    <view style="flex:4">
+      <view style="margin:0 10px;">
+        {{item.title}}
+      </view>
+    </view>
+    <view style="flex:1;display:flex;justify-content:flex-end;">
+      <view style="margin:auto;">
+        <view class="program-status program-status-over" wx:if="{{item.status=='over'}}">已结束</view>
+        <view class="program-status program-status-curr" wx:if="{{item.status=='curr'}}">直播中</view>
+        <view class="program-status program-status-fulture" wx:if="{{item.status=='fulture'}}">未开始</view>
+      </view>
+    </view>
+  </view>
+  <view style="color:gray;margin-top:100px;text-align:center;" wx:if="{{!programList.length}}">当日暂无节目信息</view>
+</view>
