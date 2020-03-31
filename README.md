@@ -22,9 +22,15 @@
 |-|-|-|
 |\_id|string|节目id|
 |channelId|string|频道id|
-|date|number|日期|
+|date|number|日期（如：20200331）|
 |title|string|标题|
 |startTime|number|开始时间（秒级时间戳）|
 |endTime|number|结束时间（秒级时间戳）|
 |length|number|时长（秒）|
 
+### 关注表（follow）
+|字段|数据类型|说明|
+|-|-|-|
+|\_id|string|关注id|
+|\_openid|string|用户id|
+|programId|string|节目id|
