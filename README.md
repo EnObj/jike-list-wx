@@ -1,12 +1,30 @@
-# 云开发 quickstart
+# 即刻节目单
 
-这是云开发的快速启动指引，其中演示了如何上手使用云开发的三大基础能力：
+展示最近历史、今日及未来各频道节目单
 
-- 数据库：一个既可在小程序前端操作，也能在云函数中读写的 JSON 文档型数据库
-- 文件存储：在小程序前端直接上传/下载云端文件，在云开发控制台可视化管理
-- 云函数：在云端运行的代码，微信私有协议天然鉴权，开发者只需编写业务逻辑代码
+## 头像
 
-## 参考文档
+![RUNOOB 图标](http://static.runoob.com/images/runoob-logo.png)
 
-- [云开发文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)
+## 数据库设计
+
+### 频道表（channel）
+
+|字段|数据类型|说明|
+|-|-|-|
+|\_id|string|频道id|
+|name|string|频道名称|
+|logo|string|图标|
+
+### 节目表（program)
+
+|字段|数据类型|说明|
+|-|-|-|
+|\_id|string|节目id|
+|channelId|string|频道id|
+|date|number|日期|
+|title|string|标题|
+|startTime|number|开始时间（秒级时间戳）|
+|endTime|number|结束时间（秒级时间戳）|
+|length|number|时长（秒）|
 
