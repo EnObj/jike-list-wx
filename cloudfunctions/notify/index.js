@@ -57,8 +57,7 @@ const notify = async(userAction) => {
       touser: userAction._openid,
       page: '/pages/index?channel=' + userAction.channel + '&date=' + userAction.date,
       data: displayProgram(program),
-      templateId: 'PeNNc-AQ5M2ZLE6BniC5YJwCcVAd1UVlsq7dZEz1n0w',
-      miniprogramState: 'developer'
+      templateId: 'PeNNc-AQ5M2ZLE6BniC5YJwCcVAd1UVlsq7dZEz1n0w'
     })
     console.log(result)
     return {
