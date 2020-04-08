@@ -12,33 +12,48 @@ Page({
     currentDate: {},
     channelList: [],
     currentChannel: {},
-    programList: []
+    programList: [],
+    currentProgram : {}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    var locDay = new Date()
+    if (options.date) {
+      locDay = this.int8DateReback(options.date)
+    }
     // 初始化日期（同步）
-    this.initDateList()
+    this.initDateList(locDay)
     // 初始化频道
-    this.initChannelList().then(() => {
+    this.initChannelList(options.channel).then(() => {
       // 加载节目单
       this.loadProgramList()
     })
+  },
+
+  int8DateReback: function(int8Date) {
+    var year = Math.floor(int8Date / 10000)
+    var month = Math.floor((int8Date % 10000) / 100) - 1
+    var day = Math.floor(int8Date % 100)
+    return new Date(year, month, day)
   },
 
   loadProgramList: function() {
     wx.showLoading({
       title: '加载中'
     })
+    var currentChannel = this.data.currentChannel.code
+    var currentDate = this.data.currentDate.int8Date
     return db.collection('program_list').where({
-      date: this.data.currentDate.int8Date,
-      channelCode: this.data.currentChannel.code
+      date: currentDate,
+      channelCode: currentChannel
     }).get().then(res => {
       this.resolveProgramListFromWeb(res.data[0] && res.data[0].list || []).then(programList => {
         // 求播出状态
         var today = this.data.today
+        var currentProgram = programList[0]
         programList.forEach(program => {
           if (program.startTime * 1000 > today.time) {
             program.status = 'fulture'
@@ -46,11 +61,31 @@ Page({
             program.status = 'over'
           } else {
             program.status = 'curr'
+            currentProgram = program
           }
         })
-        wx.hideLoading()
-        this.setData({
-          programList: programList
+        var queryUserActions = programList.map(program => {
+          var programInsideId = this.getProgramInsideId(program)
+          return db.collection('user_action').where({
+            date: currentDate,
+            channel: currentChannel,
+            programInsideId: programInsideId
+          }).limit(1).get().then(res => {
+            if (res.data.length) {
+              program.userAction = res.data[0]
+            }
+          })
+        })
+        Promise.all(queryUserActions).then(res => {
+          wx.hideLoading()
+          this.setData({
+            programList: programList,
+            currentProgram: currentProgram
+          })
+          wx.pageScrollTo({
+            duration: 300,
+            selector: "#current-program"
+          })
         })
       })
     })
@@ -66,7 +101,7 @@ Page({
             date: this.data.currentDate.int8Date
           }
         }).then(res => {
-          resolve(res.result.list||[])
+          resolve(res.result.list || [])
         }).catch(res => {
           console.error(res)
           reject(res)
@@ -77,11 +112,18 @@ Page({
     }
   },
 
-  initChannelList: function() {
+  initChannelList: function(channelCode) {
     return db.collection('channel').get().then(res => {
+      var channelList = res.data
+      var currentChannel = channelList[0]
+      if (channelCode) {
+        currentChannel = channelList.find(channel => {
+          return channel.code == channelCode
+        })
+      }
       this.setData({
-        channelList: res.data,
-        currentChannel: res.data[0]
+        channelList: channelList,
+        currentChannel: currentChannel
       })
     })
   },
@@ -154,6 +196,62 @@ Page({
     this.initDateList(date)
     // 加载节目单
     this.loadProgramList()
+  },
+
+  signAction: function(event) {
+    var program = this.data.programList[event.currentTarget.dataset.programIndex]
+
+    var promise = Promise.resolve({})
+    if (program.status == 'fulture') {
+      promise = new Promise((resolve, reject) => {
+        var tmplId = 'PeNNc-AQ5M2ZLE6BniC5YJwCcVAd1UVlsq7dZEz1n0w'
+        wx.requestSubscribeMessage({
+          tmplIds: [tmplId],
+          success(res) {
+            if (res[tmplId] == 'accept') {
+              resolve({
+                needNotify: true
+              })
+            } else {
+              console.log(res)
+              resolve({
+                needNotify: false
+              })
+            }
+          }
+        })
+      })
+    }
+
+    promise.then(res => {
+      var programInsideId = this.getProgramInsideId(program)
+      var userAction = {
+        channel: this.data.currentChannel.code,
+        date: this.data.currentDate.int8Date,
+        programInsideId: programInsideId,
+        program: program
+      }
+      if (res.needNotify) {
+        userAction.needNotify = true
+        userAction.notify = {
+          status: 'wait'
+        }
+      }
+      db.collection('user_action').add({
+        data: userAction
+      }).then(res => {
+        db.collection('user_action').doc(res._id).get().then(res => {
+          program.userAction = res.data
+          this.setData({
+            programList: this.data.programList
+          })
+        })
+      })
+    })
+  },
+
+  getProgramInsideId: function(program) {
+    return '' + program.startTime + '-' + program.title
   },
 
   /**
