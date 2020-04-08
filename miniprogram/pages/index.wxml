@@ -33,8 +33,8 @@
           {{item.showTime}}
         </view>
       </view>
-      <view style="flex:auto">
-        <view style="margin:0 10px;">
+      <view style="flex:auto;display:flex">
+        <view style="margin:auto 10px;">
           {{item.title}}
         </view>
       </view>
