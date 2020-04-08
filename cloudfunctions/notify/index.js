@@ -21,14 +21,7 @@ exports.main = async(event, context) => {
     count += batch
   } while (batch == limit);
 
-  return db.collection('notify_history').add({
-    data: {
-      date: new Date(secondTime * 1000),
-      notifyCount: count
-    }
-  }).then(res => {
-    return sendResults
-  })
+  return sendResults;
 }
 
 const batchProcess = (skip, limit, secondTime) => {
