@@ -41,12 +41,11 @@
       <view style="flex:none;display:flex;">
         <view class="status-container program-status-bd-{{item.status}} program-status-c-{{item.status}}" wx:if="{{!item.userAction}}" bindtap="signAction" data-program-index="{{index}}">
           <view class="program-status program-status-bk-{{item.status}}"></view>
-          <view style="margin:0 4px;">{{item.status=='over'?'看过':item.status=='curr'?'在看':'想看'}}</view>
+          <view style="margin:0 4px;">{{item.status=='over'?'已播':item.status=='curr'?'在播':'未播'}}</view>
         </view>
         <view class="status-container" wx:else>
           <view class="program-status program-status-bk-{{item.status}}"></view>
           <view style="margin:0 4px;" class="program-status-c-{{item.status}}">{{item.status=='over'?'看过':item.status=='curr'?'在看':'想看'}}</view>
-          <!-- <view style="margin:0 4px;">好吧</view> -->
         </view>
       </view>
     </view>

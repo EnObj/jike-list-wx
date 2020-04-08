@@ -9,11 +9,15 @@ const db = cloud.database()
 exports.main = async(event, context) => {
   var secondTime = Math.floor(Date.now() / 1000)
 
+  var sendResults = []
+
   var limit = 20
   var batch = 0
   var count = 0
   do {
-    batch = await batchProcess(count, limit, secondTime)
+    var results = await batchProcess(count, limit, secondTime)
+    sendResults = sendResults.concat(results)
+    batch = results.length
     count += batch
   } while (batch == limit);
 
@@ -22,6 +26,8 @@ exports.main = async(event, context) => {
       date: new Date(secondTime * 1000),
       notifyCount: count
     }
+  }).then(res => {
+    return sendResults
   })
 }
 
@@ -34,8 +40,19 @@ const batchProcess = (skip, limit, secondTime) => {
     var userActions = res.data
     return Promise.all(userActions.map(action => {
       return notify(action)
-    })).then(res => {
-      return userActions.length
+    })).then(sendRes => {
+      // 修改通知状态
+      return db.collection('user_action').where({
+        _id: db.command.in(userActions.map(action => {
+          return action._id
+        }))
+      }).update({
+        data: {
+          'notify.status': 'finished'
+        }
+      }).then(res => {
+        return sendRes
+      })
     })
   })
 }
@@ -50,18 +67,17 @@ const notify = async(userAction) => {
       templateId: 'PeNNc-AQ5M2ZLE6BniC5YJwCcVAd1UVlsq7dZEz1n0w',
       miniprogramState: 'developer'
     })
-    // 修改通知状态
-    await db.collection('user_action').doc(userAction._id).update({
-      data: {
-        'notify.result': result,
-        'notify.status': 'finished'
-      }
-    })
     console.log(result)
-    return result
+    return {
+      action: userAction._id,
+      result: result
+    }
   } catch (err) {
     console.log(err)
-    return err
+    return {
+      action: userAction._id,
+      err: err
+    }
   }
 }
 

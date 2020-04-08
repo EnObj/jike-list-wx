@@ -208,16 +208,22 @@ Page({
         wx.requestSubscribeMessage({
           tmplIds: [tmplId],
           success(res) {
+            console.log(res)
             if (res[tmplId] == 'accept') {
               resolve({
                 needNotify: true
               })
             } else {
-              console.log(res)
               resolve({
                 needNotify: false
               })
             }
+          },
+          fail(res){
+            console.log(res)
+            resolve({
+              needNotify: false
+            })
           }
         })
       })
