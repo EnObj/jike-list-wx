@@ -1,0 +1,9 @@
+{
+  "triggers": [
+    {
+      "name": "programStart",
+      "type": "timer",
+      "config": "0 0 1 * * MON *"
+    }
+  ]
+}
