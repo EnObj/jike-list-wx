@@ -13,7 +13,8 @@ Page({
     channelList: [],
     currentChannel: {},
     programList: [],
-    currentProgram : {}
+    currentProgram: {},
+    userActions: {}
   },
 
   /**
@@ -55,6 +56,7 @@ Page({
         var today = this.data.today
         var currentProgram = programList[0]
         programList.forEach(program => {
+          // 得到播放状态
           if (program.startTime * 1000 > today.time) {
             program.status = 'fulture'
           } else if (program.endTime * 1000 < today.time) {
@@ -63,24 +65,21 @@ Page({
             program.status = 'curr'
             currentProgram = program
           }
+          // 求insideId
+          program.insideId = this.getProgramInsideId(program)
         })
-        var queryUserActions = programList.map(program => {
-          var programInsideId = this.getProgramInsideId(program)
-          return db.collection('user_action').where({
-            date: currentDate,
-            channel: currentChannel,
-            programInsideId: programInsideId
-          }).limit(1).get().then(res => {
-            if (res.data.length) {
-              program.userAction = res.data[0]
-            }
-          })
-        })
-        Promise.all(queryUserActions).then(res => {
+        this.queryUserActions({
+          date: currentDate,
+          channel: currentChannel
+        }, []).then(userActions => {
           wx.hideLoading()
           this.setData({
             programList: programList,
-            currentProgram: currentProgram
+            currentProgram: currentProgram,
+            userActions: userActions.reduce((map, userAction) => {
+              map[userAction.programInsideId] = userAction
+              return map
+            }, {})
           })
           wx.pageScrollTo({
             duration: 300,
@@ -88,6 +87,18 @@ Page({
           })
         })
       })
+    })
+  },
+
+  queryUserActions: function(where, userActions) {
+    var batch = 20
+    return db.collection('user_action').where(where).skip(userActions.length).limit(batch).get().then(res => {
+      userActions = userActions.concat(res.data)
+      if (res.data.length == batch) {
+        return queryUserActions(userActions)
+      } else {
+        return userActions
+      }
     })
   },
 
@@ -219,7 +230,7 @@ Page({
               })
             }
           },
-          fail(res){
+          fail(res) {
             console.log(res)
             resolve({
               needNotify: false
@@ -230,11 +241,10 @@ Page({
     }
 
     promise.then(res => {
-      var programInsideId = this.getProgramInsideId(program)
       var userAction = {
         channel: this.data.currentChannel.code,
         date: this.data.currentDate.int8Date,
-        programInsideId: programInsideId,
+        programInsideId: program.insideId,
         program: program
       }
       if (res.needNotify) {
@@ -247,9 +257,11 @@ Page({
         data: userAction
       }).then(res => {
         db.collection('user_action').doc(res._id).get().then(res => {
-          program.userAction = res.data
+          var userAction = res.data
+          var userActions = this.data.userActions
+          userActions[userAction.programInsideId] = userAction
           this.setData({
-            programList: this.data.programList
+            userActions: userActions
           })
         })
       })

@@ -1,3 +1,10 @@
+<wxs module="math">
+  module.exports = {
+    toFixed: function(number, n) {
+      return number.toFixed(n);
+    }
+  }
+</wxs>
 <view class="channel-date">
   <view style="margin-right:10px;">
     <scroll-view scroll-x enable-flex style="display:flex;align-items: flex-start;" scroll-into-view="date-{{locDay.int8Date}}">
@@ -29,17 +36,22 @@
   <scroll-view scroll-y scroll-into-view="{{'program-' + currentProgram.startTime}}" class="programs">
     <view wx:for="{{programList}}" class="program-list-item {{index%2?'program-list-item-odd':''}}" id="{{'program-'+item.startTime}}">
       <view style="flex:none;display:flex;width:50px;">
-        <view style="margin:auto 0;font-weight:700;">
-          {{item.showTime}}
+        <view style="margin:auto;">
+          <view>
+            {{item.showTime}}
+          </view>
         </view>
       </view>
       <view style="flex:auto;display:flex">
         <view style="margin:auto 10px;">
-          {{item.title}}
+          <view style="font-weight:700;color:#333;">
+            {{item.title}}
+          </view>
+          <view class="program-time-length">约{{math.toFixed(item.length/60, 0)}}分钟</view>
         </view>
       </view>
       <view style="flex:none;display:flex;">
-        <view class="status-container program-status-bd-{{item.status}} program-status-c-{{item.status}}" wx:if="{{!item.userAction}}" bindtap="signAction" data-program-index="{{index}}">
+        <view class="status-container program-status-bd-{{item.status}} program-status-c-{{item.status}}" wx:if="{{!userActions[item.insideId]}}" bindtap="signAction" data-program-index="{{index}}">
           <view class="program-status program-status-bk-{{item.status}}"></view>
           <view style="margin:0 4px;">{{item.status=='over'?'已播':item.status=='curr'?'在播':'未播'}}</view>
         </view>
@@ -50,5 +62,4 @@
       </view>
     </view>
   </scroll-view>
-  <view style="color:gray;margin-top:100px;text-align:center;" wx:if="{{!programList.length}}">当日暂无节目信息</view>
 </view>

@@ -89,3 +89,8 @@
 .programs{
   height: calc(100vh - 121px);
 }
+
+.program-time-length{
+  color: gray;
+  font-size: 14px;
+}
