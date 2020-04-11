@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "openapi": [
+      "search.submitPages"
+    ]
+  },
+  "triggers": [
+    {
+      "name": "submitPage",
+      "type": "timer",
+      "config": "0 0 2 * * MON *"
+    }
+  ]
+}

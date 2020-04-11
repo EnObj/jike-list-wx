@@ -1,7 +1,7 @@
 {
   "triggers": [
     {
-      "name": "programStart",
+      "name": "syncWeek",
       "type": "timer",
       "config": "0 0 1 * * MON *"
     }
