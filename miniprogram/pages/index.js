@@ -328,6 +328,11 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function() {
-
+    var channel = this.data.currentChannel
+    var date = this.data.currentDate
+    return {
+      title: channel.name + '频道有好节目了，块来围观！',
+      path: '/pages/index?channel=' + channel.code + '&date=' + date.int8Date
+    }
   }
 })
