@@ -20,13 +20,15 @@
 
 <view class="result-bar">
   <view wx:for="{{list}}" wx:key="_id" class="channel-result">
-    <view class="flex-between channel-result-title">
-      <view>
-        <image style="width:60px;height:40px;" mode="aspectFit" src="{{channels[item.channelCode].logo}}"></image>
-        <!-- {{item.channelCode}} -->
+    <navigator open-type="reLaunch" url="/pages/index?channel={{item.channelCode}}&date={{item.date}}">
+      <view class="flex-between channel-result-title">
+        <view>
+          <image style="width:60px;height:40px;" mode="aspectFit" src="{{channels[item.channelCode].logo}}"></image>
+          <!-- {{item.channelCode}} -->
+        </view>
+        <view hidden="{{whereDate=='今日'}}" class="not-importent">{{item.dateObj.showDate}}</view>
       </view>
-      <view hidden="{{whereDate=='今日'}}" class="not-importent">{{item.dateObj.showDate}}</view>
-    </view>
+    </navigator>
     <program-list channel="{{item.channelCode}}" date="{{item.date}}" list="{{item.searchTargetList}}" />
   </view>
 </view>
