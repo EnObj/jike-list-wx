@@ -4,7 +4,7 @@
 }
 
 .program-list-item-odd {
-  border-top: 1px #eee solid;
+  border-bottom: 1px #eee solid;
 }
 
 .program-status {
@@ -64,7 +64,7 @@
 }
 
 .programs{
-  height: calc(100vh - 121px);
+  padding: 0 10px;
 }
 
 .program-time-length{

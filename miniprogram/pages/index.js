@@ -45,10 +45,7 @@ Page({
       this.resolveProgramListFromWeb(res.data[0] && res.data[0].list || []).then(programList => {
         wx.hideLoading()
         this.setData({
-          programList: programList,
-          currentProgram: {
-            code: 'curr'
-          }
+          programList: programList
         })
       })
     })
@@ -179,7 +176,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-    
+
   },
 
   /**

@@ -13,6 +13,7 @@ Component({
       type: Array,
       value: [],
       observer: function(list) {
+        var currentProgram = list[0]
         list.forEach((program, index) => {
           // 求insideId
           program.insideId = this.getProgramInsideId(program)
@@ -23,10 +24,12 @@ Component({
             program.status = 'over'
           } else {
             program.status = 'curr'
+            currentProgram = program
           }
         })
         this.setData({
-          list: list
+          list: list,
+          currentProgram: currentProgram
         })
       }
     }
@@ -36,7 +39,8 @@ Component({
    * 组件的初始数据
    */
   data: {
-    userActions: {}
+    userActions: {},
+    currentProgram: null
   },
 
   lifetimes: {
