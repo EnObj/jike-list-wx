@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "mp-icon": "../component/icon/icon"
+    "mp-icon": "../component/icon/icon",
+    "program-list": "../component/program/program-list"
   },
-  "enablePullDownRefresh": true
+  "disableScroll": true
 }

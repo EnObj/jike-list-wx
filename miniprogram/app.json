@@ -1,6 +1,8 @@
 {
   "pages": [
-    "pages/index"
+    "pages/index",
+    "pages/pre-search",
+    "pages/search/search"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -11,5 +13,24 @@
   },
   "sitemapLocation": "sitemap.json",
   "style": "v2",
-  "resizable": true
+  "resizable": true,
+  "tabBar": {
+    "color": "#000",
+    "selectedColor": "#e67e22",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "pages/index",
+        "text": "首页",
+        "iconPath": "icon/home-line.png",
+        "selectedIconPath": "icon/home-fill.png"
+      },
+      {
+        "pagePath": "pages/pre-search",
+        "text": "搜索",
+        "iconPath": "icon/menu-line.png",
+        "selectedIconPath": "icon/menu-fill.png"
+      }
+    ]
+  }
 }

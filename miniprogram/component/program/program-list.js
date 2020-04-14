@@ -12,8 +12,10 @@ Component({
     list: {
       type: Array,
       value: [],
-      observer: function(list){
-        list.forEach(program => {
+      observer: function(list) {
+        list.forEach((program, index) => {
+          // 求insideId
+          program.insideId = this.getProgramInsideId(program)
           // 得到播放状态
           if (program.startTime * 1000 > Date.now()) {
             program.status = 'fulture'
@@ -22,8 +24,6 @@ Component({
           } else {
             program.status = 'curr'
           }
-          // 求insideId
-          program.insideId = this.getProgramInsideId(program)
         })
         this.setData({
           list: list
@@ -40,7 +40,7 @@ Component({
   },
 
   lifetimes: {
-    attached: function(){
+    attached: function() {
       // 查询用户动作
       this.queryUserActions({
         date: this.data.date,
@@ -64,7 +64,7 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    signAction: function (event) {
+    signAction: function(event) {
       var program = this.data.list[event.currentTarget.dataset.programIndex]
 
       var promise = Promise.resolve({})
@@ -123,7 +123,7 @@ Component({
       })
     },
 
-    unsignAction: function (event) {
+    unsignAction: function(event) {
       const _this = this
       var userActions = _this.data.userActions
       const programInsideId = event.currentTarget.dataset.programInsideId
@@ -147,7 +147,7 @@ Component({
       })
     },
 
-    queryUserActions: function (where, userActions) {
+    queryUserActions: function(where, userActions) {
       var batch = 20
       return db.collection('user_action').where(where).skip(userActions.length).limit(batch).get().then(res => {
         userActions = userActions.concat(res.data)
@@ -159,7 +159,7 @@ Component({
       })
     },
 
-    getProgramInsideId: function (program) {
+    getProgramInsideId: function(program) {
       return '' + program.startTime + '-' + program.title
     }
   }

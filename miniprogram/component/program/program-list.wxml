@@ -5,7 +5,7 @@
     }
   }
 </wxs>
-<view wx:for="{{list}}" wx:key="insideId" class="program-list-item {{index!=0?'program-list-item-odd':''}}" id="{{'program-'+item.startTime}}">
+<view wx:for="{{list}}" wx:key="insideId" class="program-list-item {{index!=0?'program-list-item-odd':''}}" id="program-{{channel}}-{{date}}-{{item.status=='curr'?'curr':index}}">
   <view style="flex:none;display:flex;width:50px;">
     <view style="margin:auto;">
       <view>
