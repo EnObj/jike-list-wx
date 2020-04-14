@@ -6,9 +6,9 @@
   </navigator>
 </view>
 
-<view class="padding-box hots">
+<view class="padding-box hots" wx:if="{{hots.length}}">
   <view class="hot-title">热门搜索</view>
-  <navigator url="./search/search?keyword={{item}}" wx:for="{{['新闻联播','欧冠','今日说法','篮球','等着我']}}" wx:key="*this">
-    <view class="hot">{{item}}</view>
+  <navigator url="./search/search?keyword={{item.keyword}}" wx:for="{{hots}}" wx:key="_id">
+    <view class="hot">{{item.keyword}}</view>
   </navigator>
 </view>

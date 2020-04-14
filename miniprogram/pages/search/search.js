@@ -105,7 +105,7 @@ Page({
     }
   },
 
-  cleanKeywords: function () {
+  cleanKeywords: function() {
     var _this = this
     wx.showModal({
       content: '确认清空搜索历史？',
@@ -113,7 +113,7 @@ Page({
         if (res.confirm) {
           wx.removeStorage({
             key: 'searchKeywords',
-            success: function (res) {
+            success: function(res) {
               _this.setData({
                 keywords: []
               })
@@ -200,6 +200,10 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function() {
-
+    var keyword = this.data.keyword
+    return {
+      title: '即刻节目单又有好节目了，快来搜索“' + keyword + '”试试吧！',
+      path: '/pages/search/search?keyword=' + keyword
+    }
   }
 })
