@@ -268,6 +268,29 @@ Page({
     })
   },
 
+  unsignAction: function(event){
+    const _this = this
+    wx.showModal({
+      content: '确定取消标记？',
+      success(res){
+        if(res.confirm){
+          const programInsideId = event.currentTarget.dataset.programInsideId
+          db.collection('user_action').where({
+            channel: _this.data.currentChannel.code,
+            date: _this.data.currentDate.int8Date,
+            programInsideId: programInsideId,
+          }).remove().then(res=>{
+            var userActions = _this.data.userActions
+            delete userActions[programInsideId]
+            _this.setData({
+              userActions: userActions
+            })
+          })
+        }
+      }
+    })
+  },
+
   getProgramInsideId: function(program) {
     return '' + program.startTime + '-' + program.title
   },
