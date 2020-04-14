@@ -17,12 +17,12 @@ navigator:hover{
 }
 
 .hot-title{
-  padding-bottom: 10px;
+  padding-bottom: 15px;
   color: gray;
   font-size: 14px; 
 }
 
 .hot{
   border-top: 1px #eee solid;
-  padding: 10px 0;
+  padding: 15px 0;
 }

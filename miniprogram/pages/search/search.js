@@ -26,7 +26,8 @@ Page({
     today: {},
     keyword: '',
     whereDate: '今日',
-    list: []
+    list: null,
+    autoFocus: false
   },
 
   /**
@@ -34,10 +35,19 @@ Page({
    */
   onLoad: function(options) {
     this.inpValue = options.keyword || ''
+    this.setData({
+      autoFocus: !this.inpValue
+    })
   },
 
   inpChange: function(event) {
     this.inpValue = event.detail.value
+  },
+
+  focusInp: function(){
+    this.setData({
+      list: null
+    })
   },
 
   search: function() {
