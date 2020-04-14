@@ -154,3 +154,16 @@ page {
   line-height: 36rpx;
   word-break: break-all;
 }
+
+.flex-between{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.padding-box{
+  margin:10px;
+  padding: 10px;
+  border-radius: 5px;
+  background: #fff;
+}

@@ -1,0 +1,14 @@
+<view class="search-fake-inp">
+  <navigator url="./search/search">
+    <view>
+      <mp-icon icon="search" color="gray" size="{{20}}"></mp-icon>
+    </view>
+  </navigator>
+</view>
+
+<view class="padding-box hots">
+  <view class="hot-title">热门搜索</view>
+  <navigator url="./search/search?keyword={{item}}" wx:for="{{['新闻联播','欧冠','今日说法','篮球','等着我']}}" wx:key="*this">
+    <view class="hot">{{item}}</view>
+  </navigator>
+</view>

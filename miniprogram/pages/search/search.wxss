@@ -1,0 +1,45 @@
+.search-bar{
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+
+.search-inp{
+  flex: auto;
+  background: #fff;
+  border-radius: 5px;
+  padding: 8px;
+  display: flex;
+}
+
+.search-inp-r{
+  flex: auto;
+  margin-left:5px;
+}
+
+.search-btn{
+  flex:none;
+  margin-left:8px;
+}
+
+.filter-bar{
+  display: flex;
+  justify-content: space-around;
+}
+
+.date-filter{
+  color: gray;
+  padding: 5px;
+}
+
+.active-date-filter{
+  border-bottom: 2px #444 solid;
+  color: #444;
+}
+
+.padding-box{
+  margin:10px;
+  padding: 10px;
+  border-radius: 5px;
+  background: #fff;
+}
