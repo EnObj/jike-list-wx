@@ -268,19 +268,20 @@ Page({
     })
   },
 
-  unsignAction: function(event){
+  unsignAction: function(event) {
     const _this = this
+    var userActions = _this.data.userActions
+    const programInsideId = event.currentTarget.dataset.programInsideId
+    const content = '确定取消标记' + (userActions[programInsideId].needNotify ? '和提醒？' : '？')
     wx.showModal({
-      content: '确定取消标记？',
-      success(res){
-        if(res.confirm){
-          const programInsideId = event.currentTarget.dataset.programInsideId
+      content: content,
+      success(res) {
+        if (res.confirm) {
           db.collection('user_action').where({
             channel: _this.data.currentChannel.code,
             date: _this.data.currentDate.int8Date,
             programInsideId: programInsideId,
-          }).remove().then(res=>{
-            var userActions = _this.data.userActions
+          }).remove().then(res => {
             delete userActions[programInsideId]
             _this.setData({
               userActions: userActions

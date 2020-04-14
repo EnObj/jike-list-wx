@@ -56,8 +56,9 @@
           <view style="margin:0 4px;">{{item.status=='over'?'已播':item.status=='curr'?'在播':'未播'}}</view>
         </view>
         <view class="status-container" wx:else bindtap="unsignAction" data-program-inside-id="{{item.insideId}}">
-          <view class="program-status program-status-bk-{{item.status}}"></view>
-          <!-- <mp-icon icon="bellring-on" color="black" size="{{20}}"></mp-icon> -->
+          <mp-icon icon="bellring-on" color="green" type="field" size="{{15}}" wx:if="{{item.status=='fulture' && userActions[item.insideId].needNotify}}"></mp-icon>
+          <view class="program-status program-status-bk-{{item.status}}" wx:else>
+          </view>
           <view style="margin:0 4px;" class="program-status-c-{{item.status}}">{{item.status=='over'?'看过':item.status=='curr'?'在看':'想看'}}</view>
         </view>
       </view>

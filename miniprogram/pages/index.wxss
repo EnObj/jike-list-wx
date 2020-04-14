@@ -32,9 +32,8 @@
 .program-status {
   width: 15px;
   height: 15px;
+  display: flex;
   border-radius: 50%;
-  font-size: 12px;
-  text-align: center;
   color: white;
 }
 
