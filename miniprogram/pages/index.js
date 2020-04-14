@@ -75,6 +75,11 @@ Page({
   initChannelList: function(channelCode) {
     return db.collection('channel').get().then(res => {
       var channelList = res.data
+      var app = getApp()
+      app.globalData.channels = channelList.reduce((channels, channel)=>{
+        channels[channel.code] = channel
+        return channels
+      }, {})
       var currentChannel = channelList[0]
       if (channelCode) {
         currentChannel = channelList.find(channel => {

@@ -3,7 +3,7 @@
   margin:50px 30px 30px;
   background: #fff;
   border-radius: 5px;
-  padding: 8px;
+  padding: 10px;
 }
 
 navigator:hover{

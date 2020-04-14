@@ -25,9 +25,11 @@ Page({
   data: {
     today: {},
     keyword: '',
+    keywords: [],
     whereDate: '今日',
     list: null,
-    autoFocus: false
+    autoFocus: false,
+    channels: {}
   },
 
   /**
@@ -36,7 +38,8 @@ Page({
   onLoad: function(options) {
     this.inpValue = options.keyword || ''
     this.setData({
-      autoFocus: !this.inpValue
+      autoFocus: !this.inpValue,
+      list: !!this.inpValue ? [] : null
     })
   },
 
@@ -44,9 +47,10 @@ Page({
     this.inpValue = event.detail.value
   },
 
-  focusInp: function(){
+  focusInp: function() {
     this.setData({
-      list: null
+      list: null,
+      whereDate: '今日'
     })
   },
 
@@ -54,9 +58,12 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
+    const keyword = this.inpValue
+    this.setData({
+      keyword: keyword
+    })
     const today = this.data.today
     const dateFilter = dateFilters[this.data.whereDate]
-    const keyword = this.inpValue
     db.collection('program_list').where({
       date: dateFilter.where(today.int8Date),
       list: _.elemMatch({
@@ -75,9 +82,45 @@ Page({
       })
       wx.hideLoading()
       this.setData({
-        keyword: keyword,
         list: list
       })
+      this.addToLocalHistory(keyword)
+    })
+  },
+
+  addToLocalHistory: function(keyword) {
+    const _this = this
+    var keywords = _this.data.keywords
+    if (keywords.indexOf(keyword) < 0) {
+      keywords.unshift(keyword)
+      wx.setStorage({
+        key: 'searchKeywords',
+        data: keywords,
+        success() {
+          _this.setData({
+            keywords: keywords
+          })
+        }
+      })
+    }
+  },
+
+  cleanKeywords: function () {
+    var _this = this
+    wx.showModal({
+      content: '确认清空搜索历史？',
+      success(res) {
+        if (res.confirm) {
+          wx.removeStorage({
+            key: 'searchKeywords',
+            success: function (res) {
+              _this.setData({
+                keywords: []
+              })
+            },
+          })
+        }
+      }
     })
   },
 
@@ -88,6 +131,11 @@ Page({
     this.search()
   },
 
+  searchKeyword: function(event) {
+    this.inpValue = event.currentTarget.dataset.keyword
+    this.search()
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -95,6 +143,20 @@ Page({
     if (this.inpValue) {
       this.search()
     }
+    const _this = this
+    wx.getStorage({
+      key: 'searchKeywords',
+      success: function(res) {
+        _this.setData({
+          keywords: res.data || []
+        })
+      },
+    })
+    var app = getApp()
+    var channels = app.globalData.channels
+    this.setData({
+      channels: channels
+    })
   },
 
   /**

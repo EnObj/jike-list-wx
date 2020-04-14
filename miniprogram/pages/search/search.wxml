@@ -21,9 +21,24 @@
 <view class="result-bar">
   <view wx:for="{{list}}" wx:key="_id" class="channel-result">
     <view class="flex-between channel-result-title">
-      <view>{{item.channelCode}}</view>
-      <view hidden="{{whereDate=='今日'}}">{{item.dateObj.showDate}}</view>
+      <view>
+        <image style="width:60px;height:40px;" mode="aspectFit" src="{{channels[item.channelCode].logo}}"></image>
+        <!-- {{item.channelCode}} -->
+      </view>
+      <view hidden="{{whereDate=='今日'}}" class="not-importent">{{item.dateObj.showDate}}</view>
     </view>
-    <program-list channel="{{item.channelCode}}" date="{{item.date}}" list="{{item.searchTargetList}}"/>
+    <program-list channel="{{item.channelCode}}" date="{{item.date}}" list="{{item.searchTargetList}}" />
+  </view>
+</view>
+
+<view class="keywords-area" hidden="{{!keywords.length || list}}">
+  <view class="keywords-title flex-between">
+    <view>搜索历史</view>
+    <view bindtap="cleanKeywords">
+      <mp-icon icon="delete" color="gray" size="18"></mp-icon>
+    </view>
+  </view>
+  <view class="keywords">
+    <view wx:for="{{keywords}}" wx:key="*this" bindtap="searchKeyword" data-keyword="{{item}}" class="keyword">{{item}}</view>
   </view>
 </view>

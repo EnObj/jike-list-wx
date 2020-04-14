@@ -16,20 +16,20 @@
   "resizable": true,
   "tabBar": {
     "color": "#000",
-    "selectedColor": "#e67e22",
+    "selectedColor": "#ff0000",
     "backgroundColor": "#fff",
     "list": [
       {
         "pagePath": "pages/index",
-        "text": "首页",
-        "iconPath": "icon/home-line.png",
-        "selectedIconPath": "icon/home-fill.png"
+        "text": "节目单",
+        "iconPath": "icon/file-list-3-line.png",
+        "selectedIconPath": "icon/file-list-3-fill.png"
       },
       {
         "pagePath": "pages/pre-search",
         "text": "搜索",
-        "iconPath": "icon/menu-line.png",
-        "selectedIconPath": "icon/menu-fill.png"
+        "iconPath": "icon/file-search-line.png",
+        "selectedIconPath": "icon/file-search-fill.png"
       }
     ]
   }
