@@ -142,8 +142,13 @@ Component({
             var userAction = res.data
             var userActions = this.data.userActions
             userActions[userAction.programInsideId] = userAction
+            var hotStates = this.data.hotStates
+            var hotState = hotStates[userAction.programInsideId] || 0
+            hotState++
+            hotStates[userAction.programInsideId] = hotState
             this.setData({
-              userActions: userActions
+              userActions: userActions,
+              hotStates: hotStates
             })
           })
         })
@@ -165,8 +170,13 @@ Component({
               programInsideId: programInsideId,
             }).remove().then(res => {
               delete userActions[programInsideId]
+              var hotStates = _this.data.hotStates
+              var hotState = hotStates[programInsideId] || 0
+              hotState--
+              hotStates[programInsideId] = hotState
               _this.setData({
-                userActions: userActions
+                userActions: userActions,
+                hotStates: hotStates
               })
             })
           }
