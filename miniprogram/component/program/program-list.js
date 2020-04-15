@@ -156,7 +156,7 @@ Component({
       return db.collection('user_action').where(where).skip(userActions.length).limit(batch).get().then(res => {
         userActions = userActions.concat(res.data)
         if (res.data.length == batch) {
-          return queryUserActions(userActions)
+          return this.queryUserActions(where, userActions)
         } else {
           return userActions
         }

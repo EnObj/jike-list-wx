@@ -1,4 +1,5 @@
 const programUtils = require('./../../utils/programUtils.js')
+const channelUtils = require('./../../utils/channelUtils.js')
 const db = wx.cloud.database()
 
 // miniprogram/pages/channel/channel.js
@@ -10,7 +11,8 @@ Page({
   data: {
     options: null,
     currentDate: null,
-    programList: []
+    programList: [],
+    channel: null
   },
 
   /**
@@ -19,6 +21,18 @@ Page({
   onLoad: function (options) {
     // 日期未传，默认今日
     options.date = +options.date || dateUtils.getDateObj(new Date()).int8Date
+    // 查询频道对象
+    channelUtils.getChannelList(db).then(channels=>{
+      const channel = channels.find(channel=>{
+        return channel.code == options.channel
+      })
+      this.setData({
+        channel: channel
+      })
+      wx.setNavigationBarTitle({
+        title: channel.name,
+      })
+    })
     this.setData({
       options: options,
       currentDate: options.date

@@ -153,12 +153,12 @@ Page({
         })
       },
     })
-    channelUtils.getChannelList(db).then(channels=>{
+    channelUtils.getChannelList(db).then(channels => {
       this.setData({
-        channels: channels.reduce((channelMap, channel)=>{
+        channels: (channels || []).reduce((channelMap, channel) => {
           channelMap[channel.code] = channel
           return channelMap
-        })
+        }, {})
       })
     })
   },

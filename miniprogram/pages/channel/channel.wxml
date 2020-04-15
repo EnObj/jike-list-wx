@@ -1,5 +1,11 @@
+<!-- <view class="channel-logo">
+  <view class="logo">
+    <image style="width:60px;height:40px;" mode="aspectFit" src="{{channel.logo}}"></image>
+  </view>
+</view> -->
+
 <view class="channel-date">
-  <date-selector loc-date="{{options.date}}" bindswitchdate="switchDate"/>
+  <date-selector loc-date="{{options.date}}" bindswitchdate="switchDate" />
 </view>
 
 <view>

@@ -1,5 +1,6 @@
 const dateUtils = require('./../utils/dateUtils.js')
 const programUtils = require('./../utils/programUtils.js')
+const channelUtils = require('./../utils/channelUtils.js')
 const db = wx.cloud.database()
 
 Page({
@@ -47,14 +48,7 @@ Page({
   },
 
   initChannelList: function(channelCode) {
-    return db.collection('channel').get().then(res => {
-      var channelList = res.data
-      // 缓存到global
-      var app = getApp()
-      app.globalData.channels = channelList.reduce((channels, channel) => {
-        channels[channel.code] = channel
-        return channels
-      }, {})
+    return channelUtils.getChannelList(db).then(channelList => {
       var currentChannel = channelList[0]
       if (channelCode) {
         currentChannel = channelList.find(channel => {
