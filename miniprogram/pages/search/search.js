@@ -220,7 +220,7 @@ Page({
   onShareAppMessage: function() {
     var keyword = this.data.keyword
     return {
-      title: '即刻节目单又有好节目了，快来搜索“' + keyword + '”试试吧！',
+      title: '又有好节目了，快来即刻搜索“' + keyword + '”试试吧！',
       path: '/pages/search/search?keyword=' + keyword
     }
   }

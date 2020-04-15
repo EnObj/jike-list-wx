@@ -123,7 +123,7 @@ Page({
     var channel = this.data.currentChannel
     var date = this.data.currentDate
     return {
-      title: channel.name + '频道有好节目了，快来围观！',
+      title: '这个频道有好节目了，快来围观！',
       path: '/pages/index?channel=' + channel + '&date=' + date
     }
   }
