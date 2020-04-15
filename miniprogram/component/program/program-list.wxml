@@ -24,7 +24,7 @@
           </view>
           <view class="flex-between program-time-length">
             <view>约{{math.toFixed(item.length/60, 0)}}分钟</view>
-            <view hidden="{{!hotStates[item.insideId]}}">{{hotStates[item.insideId]}}人关注</view>
+            <view hidden="{{!hotStates[item.insideId]}}">{{hotStates[item.insideId]}}热度</view>
           </view>
         </view>
       </view>
