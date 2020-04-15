@@ -1,0 +1,9 @@
+<view class="channel-date">
+  <date-selector loc-date="{{options.date}}" bindswitchdate="switchDate"/>
+</view>
+
+<view>
+  <view class="programs" wx:if="{{options.channel && currentDate}}">
+    <program-list channel="{{option.channel}}" date="{{currentDate}}" list="{{programList}}" />
+  </view>
+</view>

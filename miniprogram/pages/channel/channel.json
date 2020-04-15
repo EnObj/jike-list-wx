@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "date-selector": "../../component/program/date-selector",
+    "program-list": "../../component/program/program-list"
+  },
+  "disableScroll": true
+}

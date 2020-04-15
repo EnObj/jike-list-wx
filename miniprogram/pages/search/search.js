@@ -1,4 +1,5 @@
 const dateUtils = require('./../../utils/dateUtils.js')
+const channelUtils = require('./../../utils/channelUtils.js')
 const db = wx.cloud.database()
 const _ = db.command
 const dateFilters = {
@@ -152,10 +153,13 @@ Page({
         })
       },
     })
-    var app = getApp()
-    var channels = app.globalData.channels
-    this.setData({
-      channels: channels
+    channelUtils.getChannelList(db).then(channels=>{
+      this.setData({
+        channels: channels.reduce((channelMap, channel)=>{
+          channelMap[channel.code] = channel
+          return channelMap
+        })
+      })
     })
   },
 

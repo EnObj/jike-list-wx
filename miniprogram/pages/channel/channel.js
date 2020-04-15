@@ -1,0 +1,96 @@
+const programUtils = require('./../../utils/programUtils.js')
+const db = wx.cloud.database()
+
+// miniprogram/pages/channel/channel.js
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    options: null,
+    currentDate: null,
+    programList: []
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    // 日期未传，默认今日
+    options.date = +options.date || dateUtils.getDateObj(new Date()).int8Date
+    this.setData({
+      options: options,
+      currentDate: options.date
+    })
+  },
+
+  loadProgramList: function (date) {
+    wx.showLoading({
+      title: '加载中'
+    })
+    programUtils.loadProgramList(this.options.channel, date, db).then(list => {
+      wx.hideLoading()
+      this.setData({
+        programList: list,
+        currentDate: date
+      })
+    })
+  },
+
+  switchDate: function (event) {
+    console.log(event)
+    // 加载节目单
+    this.loadProgramList(+event.detail)
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    const app = getApp()
+    const channel = app.globalData.channels[this.options.channel]
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  }
+})
