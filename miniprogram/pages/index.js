@@ -1,4 +1,5 @@
 const dateUtils = require('./../utils/dateUtils.js')
+const programUtils = require('./../utils/programUtils.js')
 const db = wx.cloud.database()
 
 Page({
@@ -7,76 +8,50 @@ Page({
    * 页面的初始数据
    */
   data: {
-    today: {},
-    locDay: {},
-    dateList: [],
-    currentDate: {},
+    options: null,
+    currentDate: null,
     channelList: [],
-    currentChannel: {}
+    currentChannel: null,
+    programList: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    var locDay = new Date()
-    if (options.date) {
-      locDay = dateUtils.int8DateReback(options.date)
-    }
-    // 初始化日期（同步）
-    this.initDateList(locDay)
+    // 日期未传，默认今日
+    options.date = +options.date || dateUtils.getDateObj(new Date()).int8Date
     // 初始化频道
-    this.initChannelList(options.channel).then(() => {
-      // 加载节目单
-      this.loadProgramList()
+    this.initChannelList(options.channel).then(channel => {
+      options.channel = channel
+      this.setData({
+        options: options,
+        currentChannel: options.channel,
+        currentDate: options.date
+      })
     })
   },
 
-  loadProgramList: function() {
+  loadProgramList: function(channel, date) {
     wx.showLoading({
       title: '加载中'
     })
-    var currentChannel = this.data.currentChannel.code
-    var currentDate = this.data.currentDate.int8Date
-    return db.collection('program_list').where({
-      date: currentDate,
-      channelCode: currentChannel
-    }).get().then(res => {
-      this.resolveProgramListFromWeb(res.data[0] && res.data[0].list || []).then(programList => {
-        wx.hideLoading()
-        this.setData({
-          programList: programList
-        })
+    programUtils.loadProgramList(channel, date, db).then(list => {
+      wx.hideLoading()
+      this.setData({
+        programList: list,
+        currentChannel: channel,
+        currentDate: date
       })
     })
-  },
-
-  resolveProgramListFromWeb: function(programList) {
-    if (!programList.length) {
-      return new Promise((resolve, reject) => {
-        wx.cloud.callFunction({
-          name: 'loadProgramListFromWeb',
-          data: {
-            channelCode: this.data.currentChannel.code,
-            date: this.data.currentDate.int8Date
-          }
-        }).then(res => {
-          resolve(res.result.list || [])
-        }).catch(res => {
-          console.error(res)
-          reject(res)
-        })
-      })
-    } else {
-      return Promise.resolve(programList)
-    }
   },
 
   initChannelList: function(channelCode) {
     return db.collection('channel').get().then(res => {
       var channelList = res.data
+      // 缓存到global
       var app = getApp()
-      app.globalData.channels = channelList.reduce((channels, channel)=>{
+      app.globalData.channels = channelList.reduce((channels, channel) => {
         channels[channel.code] = channel
         return channels
       }, {})
@@ -87,63 +62,22 @@ Page({
         })
       }
       this.setData({
-        channelList: channelList,
-        currentChannel: currentChannel
+        channelList: channelList
       })
+      return currentChannel.code
     })
   },
 
   switchDate: function(event) {
     console.log(event)
-    this.setData({
-      currentDate: event.currentTarget.dataset.date
-    })
     // 加载节目单
-    this.loadProgramList()
+    this.loadProgramList(this.data.currentChannel, +event.detail)
   },
 
   switchChannel: function(event) {
     console.log(event)
-    this.setData({
-      currentChannel: event.currentTarget.dataset.channel
-    })
     // 加载节目单
-    this.loadProgramList()
-  },
-
-  initDateList: function(locDay) {
-    var locDay = locDay || new Date()
-    var dateList = []
-    var currentDate = {}
-    for (var i = -6; i < 7; i++) {
-      var pDate = new Date(locDay.getTime())
-      pDate.setDate(pDate.getDate() + i)
-      var dayObj = dateUtils.getDateObj(pDate)
-      dateList.push(dayObj)
-      // 今天
-      if (i == 0) {
-        currentDate = dayObj
-      }
-    }
-    this.setData({
-      dateList: dateList.splice((7 - currentDate.week) % 7, 7),
-      currentDate: currentDate
-    })
-    // 此处单独更新是为了自动滚动到当前时间，当前频道
-    this.setData({
-      currentChannel: this.data.currentChannel,
-      locDay: currentDate
-    })
-  },
-
-  bindDateChange: function(event) {
-    console.log(event)
-    var value = event.detail.value
-    var times = value.split('-')
-    var date = new Date(+times[0], +times[1] - 1, times[2])
-    this.initDateList(date)
-    // 加载节目单
-    this.loadProgramList()
+    this.loadProgramList(event.currentTarget.dataset.channel.code, this.data.currentDate)
   },
 
   /**
@@ -157,10 +91,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    // 今日
-    this.setData({
-      today: dateUtils.getDateObj(new Date())
-    })
+
   },
 
   /**
@@ -199,7 +130,7 @@ Page({
     var date = this.data.currentDate
     return {
       title: channel.name + '频道有好节目了，快来围观！',
-      path: '/pages/index?channel=' + channel.code + '&date=' + date.int8Date
+      path: '/pages/index?channel=' + channel + '&date=' + date
     }
   }
 })

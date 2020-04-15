@@ -1,12 +1,5 @@
-<wxs module="math">
-  module.exports = {
-    toFixed: function(number, n) {
-      return number.toFixed(n);
-    }
-  }
-</wxs>
 <view class="channel-date">
-  <view style="margin-right:10px;">
+  <!-- <view style="margin-right:10px;">
     <scroll-view scroll-x enable-flex style="display:flex;align-items: flex-start;" scroll-into-view="date-{{locDay.int8Date}}">
       <view wx:for="{{dateList}}" wx:key="int8Date" style="flex:none;padding:5px 10px;" id="date-{{item.int8Date}}" bindtap="switchDate" data-date="{{item}}">
         <view class="date-list-item {{item.int8Date == currentDate.int8Date ? 'current-date-item':''}}">
@@ -21,10 +14,11 @@
         </picker>
       </view>
     </scroll-view>
-  </view>
-  <scroll-view scroll-x enable-flex style="display:flex;align-items: flex-start;" scroll-into-view="channel-{{currentChannel.code}}">
+  </view> -->
+  <date-selector loc-date="{{options.date}}" bindswitchdate="switchDate"/>
+  <scroll-view scroll-x enable-flex style="display:flex;align-items: flex-start;" scroll-into-view="channel-{{currentChannel}}">
     <view wx:for="{{channelList}}" wx:key="code" style="flex:none;padding:0 10px;" id="channel-{{item.code}}" bindtap="switchChannel" data-channel="{{item}}">
-      <view class="channel-list-item {{item.code == currentChannel.code ? 'current-channel-item':''}}">
+      <view class="channel-list-item {{item.code == currentChannel ? 'current-channel-item':''}}">
         <image style="width:60px;height:40px;" mode="aspectFit" wx:if="{{item.logo}}" src="{{item.logo}}"></image>
         <view wx:else>{{item.code}}</view>
       </view>
@@ -33,7 +27,7 @@
 </view>
 
 <view>
-  <view class="programs" wx:if="{{currentChannel.code && currentDate.int8Date}}">
-    <program-list channel="{{currentChannel.code}}" date="{{currentDate.int8Date}}" list="{{programList}}" />
+  <view class="programs" wx:if="{{currentChannel && currentDate}}">
+    <program-list channel="{{currentChannel}}" date="{{currentDate}}" list="{{programList}}" />
   </view>
 </view>

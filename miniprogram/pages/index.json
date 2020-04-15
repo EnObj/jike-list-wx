@@ -1,7 +1,8 @@
 {
   "usingComponents": {
     "mp-icon": "../component/icon/icon",
-    "program-list": "../component/program/program-list"
+    "program-list": "../component/program/program-list",
+    "date-selector": "../component/program/date-selector"
   },
   "disableScroll": true
 }

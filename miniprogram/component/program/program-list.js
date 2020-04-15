@@ -13,7 +13,7 @@ Component({
       type: Array,
       value: [],
       observer: function(list) {
-        var currentProgram = list[0]
+        var currentProgram = list[0] || {}
         list.forEach((program, index) => {
           // 求insideId
           program.insideId = this.getProgramInsideId(program)
