@@ -56,16 +56,10 @@ Page({
   },
 
   search: function() {
-    wx.showLoading({
-      title: '加载中',
-    })
     const keyword = this.inpValue
-    this.setData({
-      keyword: keyword
-    })
     const today = this.data.today
     const dateFilter = dateFilters[this.data.whereDate]
-    db.collection('program_list').where({
+    const query = db.collection('program_list').where({
       date: dateFilter.where(today.int8Date),
       list: _.elemMatch({
         title: db.RegExp({
@@ -73,19 +67,37 @@ Page({
           options: 'i'
         })
       })
-    }).orderBy('date', dateFilter.sort).get().then(res => {
+    }).orderBy('date', dateFilter.sort)
+
+    query.count().then(res => {
+      this.setData({
+        keyword: keyword,
+        count: res.total,
+        list: []
+      })
+      this.searchByPage(0, query).then(res => {
+        this.addToLocalHistory(keyword)
+        this.query = query
+      })
+    })
+  },
+
+  searchByPage: function(skip, query) {
+    wx.showLoading({
+      title: '加载中',
+    })
+    return query.skip(skip).limit(10).get().then(res => {
       var list = res.data
       list.forEach(programList => {
         programList.searchTargetList = programList.list.filter(program => {
-          return program.title.indexOf(keyword) > -1
+          return program.title.indexOf(this.data.keyword) > -1
         })
         programList.dateObj = dateUtils.getDateObj(dateUtils.int8DateReback(programList.date))
       })
       wx.hideLoading()
       this.setData({
-        list: list
+        list: this.data.list.concat(list)
       })
-      this.addToLocalHistory(keyword)
     })
   },
 
@@ -190,14 +202,16 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-
+    
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function() {
-
+    if (this.data.list.length < this.data.count) {
+      this.searchByPage(this.data.list.length, this.query)
+    }
   },
 
   /**

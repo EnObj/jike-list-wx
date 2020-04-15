@@ -1,7 +1,10 @@
-<view class="search-fake-inp">
-  <navigator url="./search/search">
-    <view>
+<view>
+  <navigator url="./search/search" class="search-fake-inp">
+    <view style="flex:none">
       <mp-icon icon="search" color="gray" size="{{20}}"></mp-icon>
+    </view>
+    <view style="flex:auto;margin-left:10px;color:gray;">
+      输入节目名称
     </view>
   </navigator>
 </view>
