@@ -22,9 +22,21 @@
               {{item.title}}
             </view>
           </view>
-          <view class="flex-between program-time-length">
-            <view>约{{math.toFixed(item.length/60, 0)}}分钟</view>
-            <view hidden="{{!hotStates[item.insideId]}}">{{hotStates[item.insideId]}}热度</view>
+          <view class="flex-start program-time-length">
+            <view class="flex-start" style="width: 90px;">
+              <view class="icon-g">
+                <mp-icon icon="time" color="gray" size="{{16}}"></mp-icon>
+              </view>
+              <view>约{{math.toFixed(item.length/60, 0)}}分钟</view>
+            </view>
+            <view hidden="{{!hotStates[item.insideId]}}" class="flex-between">
+              <view class="icon-g">
+                <mp-icon icon="eyes-on" color="gray" size="{{16}}"></mp-icon>
+              </view>
+              <view>
+                {{hotStates[item.insideId]}}
+              </view>
+            </view>
           </view>
         </view>
       </view>

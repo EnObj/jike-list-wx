@@ -63,17 +63,29 @@
   background: #f6f6f6;
 }
 
-.programs{
+.programs {
   padding: 0 10px;
 }
 
-.program-time-length{
+.program-time-length {
   color: gray;
   font-size: 14px;
 }
 
-.flex-between{
+.flex-between {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.icon-g {
+  height: 20px;
+  line-height: 20px;
+  margin-right: 3px;
 }
