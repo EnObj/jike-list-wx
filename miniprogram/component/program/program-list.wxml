@@ -7,7 +7,7 @@
 </wxs>
 <scroll-view scroll-y style="height:100%;" scroll-into-view="program-{{currentProgram.startTime}}">
   <view class="programs">
-    <view wx:for="{{list}}" wx:key="insideId" class="program-list-item {{index!=list.length-1?'program-list-item-odd':''}}" id="program-{{item.startTime}}">
+    <view wx:for="{{programs}}" wx:key="insideId" class="program-list-item {{index!=programs.length-1?'program-list-item-odd':''}}" id="program-{{item.startTime}}">
       <view style="flex:none;display:flex;width:50px;">
         <view style="margin:auto;">
           <view>
@@ -16,11 +16,16 @@
         </view>
       </view>
       <view style="flex:auto;display:flex">
-        <view style="margin:auto 10px;">
-          <view style="font-weight:700;color:#333;">
-            {{item.title}}
+        <view style="margin:auto 10px;width:100%;">
+          <view>
+            <view style="font-weight:700;color:#333;">
+              {{item.title}}
+            </view>
           </view>
-          <view class="program-time-length">约{{math.toFixed(item.length/60, 0)}}分钟</view>
+          <view class="flex-between program-time-length">
+            <view>约{{math.toFixed(item.length/60, 0)}}分钟</view>
+            <view hidden="{{!hotStates[item.insideId]}}">{{hotStates[item.insideId]}}人关注</view>
+          </view>
         </view>
       </view>
       <view style="flex:none;display:flex;">

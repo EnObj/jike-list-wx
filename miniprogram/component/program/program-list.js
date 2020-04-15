@@ -11,40 +11,12 @@ Component({
     date: Number,
     list: {
       type: Array,
-      value: [],
-      observer: function(list) {
-        var currentProgram = list[0] || {}
-        list.forEach((program, index) => {
-          // 求insideId
-          program.insideId = this.getProgramInsideId(program)
-          // 得到播放状态
-          if (program.startTime * 1000 > Date.now()) {
-            program.status = 'fulture'
-          } else if (program.endTime * 1000 < Date.now()) {
-            program.status = 'over'
-          } else {
-            program.status = 'curr'
-            currentProgram = program
-          }
-        })
-        this.setData({
-          list: list,
-          currentProgram: currentProgram
-        })
-      }
+      value: []
     }
   },
 
-  /**
-   * 组件的初始数据
-   */
-  data: {
-    userActions: {},
-    currentProgram: null
-  },
-
-  lifetimes: {
-    attached: function() {
+  observers: {
+    'channel, date': function (channel, date){
       // 查询用户动作
       this.queryUserActions({
         date: this.data.date,
@@ -57,6 +29,57 @@ Component({
           }, {})
         })
       })
+      // 查询热度
+      wx.cloud.callFunction({
+        name: 'queryHotState',
+        data: {
+          date: this.data.date,
+          channel: this.data.channel
+        }
+      }).then(res => {
+        this.setData({
+          hotStates: res.result.list.reduce((map, hotState) => {
+            map[hotState._id] = hotState.num
+            return map
+          }, {})
+        })
+      })
+    },
+    'list': function(list){
+      var currentProgram = list[0] || {}
+      list.forEach((program, index) => {
+        // 求insideId
+        program.insideId = this.getProgramInsideId(program)
+        // 得到播放状态
+        if (program.startTime * 1000 > Date.now()) {
+          program.status = 'fulture'
+        } else if (program.endTime * 1000 < Date.now()) {
+          program.status = 'over'
+        } else {
+          program.status = 'curr'
+          currentProgram = program
+        }
+      })
+      this.setData({
+        programs: list,
+        currentProgram: currentProgram
+      })
+    }
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    userActions: {},
+    hotStates: {},
+    currentProgram: null,
+    programs: []
+  },
+
+  lifetimes: {
+    attached: function() {
+      
     }
   },
 

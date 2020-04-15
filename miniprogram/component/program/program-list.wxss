@@ -71,3 +71,9 @@
   color: gray;
   font-size: 14px;
 }
+
+.flex-between{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
