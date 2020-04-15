@@ -2,5 +2,6 @@
   "usingComponents": {
     "mp-icon": "../../component/icon/icon",
     "program-list": "../../component/program/program-list"
-  }
+  },
+  "navigationBarTitleText": "搜索"
 }

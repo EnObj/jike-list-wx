@@ -1,5 +1,6 @@
 {
   "usingComponents": {
     "mp-icon": "../component/icon/icon"
-  }
+  },
+  "navigationBarTitleText": "搜索"
 }
