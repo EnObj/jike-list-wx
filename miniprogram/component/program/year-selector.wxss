@@ -1,0 +1,11 @@
+.date-list-item {
+  padding: 5px;
+  width: 60px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.current-date-item {
+  background: red;
+  color: white;
+}
