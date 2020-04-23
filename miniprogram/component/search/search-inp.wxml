@@ -1,0 +1,24 @@
+<view class="ctrl-head">
+  <view class="search-bar">
+    <view class="search-inp">
+      <view>
+        <mp-icon icon="search" color="gray" size="{{20}}"></mp-icon>
+      </view>
+      <view class="search-inp-r">
+        <input value="{{value}}" bindinput="inpChange" focus="{{focus}}" confirm-type="search" bindconfirm="search" bindfocus="focusInp" placeholder="输入节目名称"></input>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="keywords-area" hidden="{{!keywords.length || inpValue}}">
+  <view class="keywords-title flex-between">
+    <view>搜索历史</view>
+    <view bindtap="cleanKeywords">
+      <mp-icon icon="delete" color="gray" size="18"></mp-icon>
+    </view>
+  </view>
+  <view class="keywords">
+    <view wx:for="{{keywords}}" wx:key="*this" bindtap="searchKeyword" data-keyword="{{item}}" class="keyword">{{item}}</view>
+  </view>
+</view>

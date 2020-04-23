@@ -1,0 +1,37 @@
+<scroll-view scroll-y style="height:100%;">
+  <view style="display: flex;height:100%;">
+    <view style="margin:auto;">
+      <view wx:for="{{programList.list}}" wx:key="insideId" class="program-list-item {{index!=programList.list.length-1?'program-list-item-odd':''}}">
+        <view style="flex:none;display:flex;width:50px;">
+          <view style="margin:auto;">
+            <view>
+              {{item.country}}
+            </view>
+          </view>
+        </view>
+        <view style="flex:auto;display:flex">
+          <view style="width:100%;">
+            <view>
+              <view style="font-weight:700;color:#333;">
+                {{item.who}}
+              </view>
+            </view>
+            <view class="flex-start program-time-length">
+              <view class="flex-start">
+                <view>{{item.en}}</view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view bindtap="signAction" data-program-index="{{index}}" hidden="{{userActions[item.insideId]}}">
+          <mp-icon icon="eyes-on" color="green" type="field" size="25"></mp-icon>
+          {{hotStates[item.insideId]}}
+        </view>
+        <view bindtap="unsignAction" hidden="{{!userActions[item.insideId]}}" data-program-inside-id="{{item.insideId}}">
+          <mp-icon icon="eyes-off" color="green" type="field" size="25"></mp-icon>
+          {{hotStates[item.insideId]}}
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>

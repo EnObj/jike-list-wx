@@ -1,6 +1,11 @@
+.channel-list {
+  display: flex;
+  align-items: center;
+}
+
 .channel-list-item {
   padding: 5px;
-  width: 70px;
+  /* width: 70px; */
   text-align: center;
 }
 
@@ -8,6 +13,6 @@
   border-bottom: 2px blue solid;
 }
 
-.programs{
+.programs {
   height: calc(100vh - 121px);
 }

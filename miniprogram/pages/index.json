@@ -2,7 +2,9 @@
   "usingComponents": {
     "mp-icon": "../component/icon/icon",
     "program-list": "../component/program/program-list",
-    "date-selector": "../component/program/date-selector"
+    "program-list-b": "../component/program/program-list-b",
+    "day-selector": "../component/program/date-selector",
+    "year-selector": "../component/program/year-selector"
   },
   "disableScroll": true
 }

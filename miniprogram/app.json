@@ -3,7 +3,8 @@
     "pages/index",
     "pages/pre-search",
     "pages/search/search",
-    "pages/channel/channel"
+    "pages/channel/channel",
+    "pages/search/search-day"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

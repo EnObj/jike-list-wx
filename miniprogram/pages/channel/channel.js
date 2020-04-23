@@ -11,7 +11,7 @@ Page({
   data: {
     options: null,
     currentDate: null,
-    programList: [],
+    programList: null,
     channel: null
   },
 
@@ -22,10 +22,7 @@ Page({
     // 日期未传，默认今日
     options.date = +options.date || dateUtils.getDateObj(new Date()).int8Date
     // 查询频道对象
-    channelUtils.getChannelList(db).then(channels=>{
-      const channel = channels.find(channel=>{
-        return channel.code == options.channel
-      })
+    channelUtils.getChannelByCode(db, options.channel).then(channel=>{
       this.setData({
         channel: channel
       })
@@ -43,10 +40,10 @@ Page({
     wx.showLoading({
       title: '加载中'
     })
-    programUtils.loadProgramList(this.options.channel, date, db).then(list => {
+    programUtils.loadProgramList(this.options.channel, date, db).then(programList => {
       wx.hideLoading()
       this.setData({
-        programList: list,
+        programList: programList,
         currentDate: date
       })
     })
@@ -62,8 +59,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    const app = getApp()
-    const channel = app.globalData.channels[this.options.channel]
+    
   },
 
   /**

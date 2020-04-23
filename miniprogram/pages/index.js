@@ -12,43 +12,54 @@ Page({
     options: null,
     currentDate: null,
     channelList: [],
-    currentChannel: null,
-    programList: []
+    currentChannelObj: null,
+    programList: null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // 日期未传，默认今日
-    options.date = +options.date || dateUtils.getDateObj(new Date()).int8Date
+    // 日期类型未传，默认day
+    options.dateType = options.dateType || 'day'
+    // 日期未传，默认值动态确定
+    if (!options.date) {
+      if (options.dateType == 'day') {
+        options.date = '' + dateUtils.getDateObj(new Date()).int8Date
+      }
+      if (options.dateType == 'year') {
+        options.date = '' + new Date().getFullYear()
+      }
+    }
     // 初始化频道
-    this.initChannelList(options.channel).then(channel => {
-      options.channel = channel
+    this.initChannelList(options.channel, options.dateType).then(channelObj => {
+      options.channel = channelObj.code
       this.setData({
         options: options,
-        currentChannel: options.channel,
+        currentChannelObj: channelObj,
         currentDate: options.date
       })
     })
   },
 
-  loadProgramList: function(channel, date) {
+  loadProgramList: function(channelObj, date) {
     wx.showLoading({
       title: '加载中'
     })
-    programUtils.loadProgramList(channel, date, db).then(list => {
+    programUtils.loadProgramList(channelObj.code, date, db).then(programList => {
       wx.hideLoading()
       this.setData({
-        programList: list,
-        currentChannel: channel,
+        programList: programList,
+        currentChannelObj: channelObj,
         currentDate: date
       })
     })
   },
 
-  initChannelList: function(channelCode) {
-    return channelUtils.getChannelList(db).then(channelList => {
+  initChannelList: function(channelCode, dateType) {
+    return channelUtils.getChannelList(db, {
+      dateType: dateType
+    }).then(channelList => {
       var currentChannel = channelList[0]
       if (channelCode) {
         currentChannel = channelList.find(channel => {
@@ -58,20 +69,20 @@ Page({
       this.setData({
         channelList: channelList
       })
-      return currentChannel.code
+      return currentChannel
     })
   },
 
   switchDate: function(event) {
     console.log(event)
     // 加载节目单
-    this.loadProgramList(this.data.currentChannel, +event.detail)
+    this.loadProgramList(this.data.currentChannelObj, '' + event.detail)
   },
 
   switchChannel: function(event) {
     console.log(event)
     // 加载节目单
-    this.loadProgramList(event.currentTarget.dataset.channel.code, this.data.currentDate)
+    this.loadProgramList(event.currentTarget.dataset.channel, this.data.currentDate)
   },
 
   /**

@@ -4,13 +4,13 @@ module.exports = {
       date: date,
       channelCode: channel
     }).get().then(res => {
-      return resolveProgramListFromWeb(res.data[0] && res.data[0].list || [], channel, date)
+      return resolveProgramListFromWeb(res.data[0], channel, date)
     })
   }
 }
 
 const resolveProgramListFromWeb = function(programList, channelCode, date) {
-  if (!programList.length) {
+  if (!programList) {
     return new Promise((resolve, reject) => {
       wx.cloud.callFunction({
         name: 'loadProgramListFromWeb',
@@ -19,10 +19,10 @@ const resolveProgramListFromWeb = function(programList, channelCode, date) {
           date: date
         }
       }).then(res => {
-        resolve(res.result.list || [])
+        resolve(res.result)
       }).catch(res => {
         console.error(res)
-        reject(res)
+        resolve()
       })
     })
   } else {

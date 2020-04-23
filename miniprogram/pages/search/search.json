@@ -1,7 +1,8 @@
 {
   "usingComponents": {
     "mp-icon": "../../component/icon/icon",
-    "program-list": "../../component/program/program-list"
+    "search-inp": "../../component/search/search-inp",
+    "search-day": "./search-day"
   },
   "navigationBarTitleText": "搜索"
 }

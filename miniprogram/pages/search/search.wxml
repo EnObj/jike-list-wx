@@ -1,46 +1,8 @@
-<view class="ctrl-head">
-  <view class="search-bar">
-    <view class="search-inp">
-      <view>
-        <mp-icon icon="search" color="gray" size="{{20}}"></mp-icon>
-      </view>
-      <view class="search-inp-r">
-        <input value="{{keyword}}" bindinput="inpChange" focus="{{autoFocus}}" confirm-type="search" bindconfirm="search" bindfocus="focusInp" placeholder="输入节目名称"></input>
-      </view>
-    </view>
-    <!-- <view class="search-btn">
-      <button size="mini" type="primary" bindtap="search">搜索</button>
-    </view> -->
-  </view>
 
-  <view class="filter-bar" hidden="{{!list}}">
-    <view wx:for="{{['昨日','今日','明日']}}" wx:key="*this" class="date-filter {{whereDate==item?'active-date-filter':''}}" bindtap="searchWithDate" data-date="{{item}}">{{item}}</view>
-  </view>
-</view>
+<search-inp keyword="{{options.keyword}}" bindkeywordchange="search" bindfocus="focus"/>
 
-<view class="result-bar">
-  <view wx:for="{{list}}" wx:key="_id" class="channel-result">
-    <view class="flex-between channel-result-title">
-      <view>
-        <navigator url="/pages/channel/channel?channel={{item.channelCode}}&date={{item.date}}">
-          <image style="width:60px;height:40px;" mode="aspectFit" src="{{channels[item.channelCode].logo}}"></image>
-          <!-- {{item.channelCode}} -->
-        </navigator>
-      </view>
-      <view hidden="{{whereDate=='今日'}}" class="not-importent">{{item.dateObj.showDate}}</view>
-    </view>
-    <program-list channel="{{item.channelCode}}" date="{{item.date}}" list="{{item.searchTargetList}}" />
-  </view>
-</view>
-
-<view class="keywords-area" hidden="{{!keywords.length || list}}">
-  <view class="keywords-title flex-between">
-    <view>搜索历史</view>
-    <view bindtap="cleanKeywords">
-      <mp-icon icon="delete" color="gray" size="18"></mp-icon>
-    </view>
-  </view>
-  <view class="keywords">
-    <view wx:for="{{keywords}}" wx:key="*this" bindtap="searchKeyword" data-keyword="{{item}}" class="keyword">{{item}}</view>
+<view wx:if="{{keyword}}">
+  <view>
+    <search-day keyword="{{keyword}}" mode="card"/>
   </view>
 </view>

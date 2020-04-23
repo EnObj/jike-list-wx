@@ -1,17 +1,23 @@
 <view class="channel-date">
-  <date-selector loc-date="{{options.date}}" bindswitchdate="switchDate"/>
-  <scroll-view scroll-x enable-flex style="display:flex;align-items: flex-start;" scroll-into-view="channel-{{currentChannel}}">
-    <view wx:for="{{channelList}}" wx:key="code" style="flex:none;padding:0 10px;" id="channel-{{item.code}}" bindtap="switchChannel" data-channel="{{item}}">
-      <view class="channel-list-item {{item.code == currentChannel ? 'current-channel-item':''}}">
-        <image style="width:60px;height:40px;" mode="aspectFit" wx:if="{{item.logo}}" src="{{item.logo}}"></image>
-        <view wx:else>{{item.code}}</view>
+  <!--不通的日期类型渲染出不通的日期选择器-->
+  <day-selector loc-date="{{options.date}}" bindswitchdate="switchDate" wx:if="{{options.dateType=='day'}}"/>
+  <year-selector loc-year="{{options.date}}" bindswitchyear="switchDate" wx:if="{{options.dateType=='year'}}"/>
+
+  <scroll-view scroll-x enable-flexscroll-into-view="channel-{{currentChannel}}">
+    <view class="channel-list">
+      <view wx:for="{{channelList}}" wx:key="code" style="flex:none;padding:0 10px;" id="channel-{{item.code}}" bindtap="switchChannel" data-channel="{{item}}">
+        <view class="channel-list-item {{item.code == currentChannelObj.code ? 'current-channel-item':''}}">
+          <image style="width:60px;height:40px;" mode="aspectFit" wx:if="{{item.logo}}" src="{{item.logo}}"></image>
+          <view wx:else>{{item.name}}</view>
+        </view>
       </view>
     </view>
   </scroll-view>
 </view>
 
 <view>
-  <view class="programs" wx:if="{{currentChannel && currentDate}}">
-    <program-list channel="{{currentChannel}}" date="{{currentDate}}" list="{{programList}}" />
+  <view class="programs" wx:if="{{currentChannelObj && currentDate}}">
+    <program-list program-list="{{programList}}" wx:if="{{currentChannelObj.listStyle=='a'}}"/>
+    <program-list-b program-list="{{programList}}" wx:if="{{currentChannelObj.listStyle=='b'}}"/>
   </view>
 </view>
