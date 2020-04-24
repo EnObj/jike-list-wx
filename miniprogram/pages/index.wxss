@@ -7,12 +7,28 @@
   padding: 5px;
   /* width: 70px; */
   text-align: center;
+  border-bottom: 2px #f6f6f6 solid;
 }
 
 .current-channel-item {
-  border-bottom: 2px blue solid;
+  border-bottom-color: blue;
+}
+
+.index-box{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100vh;
+  width: 100vw;
 }
 
 .programs {
-  height: calc(100vh - 121px);
+  flex: auto;
+  overflow-y:hidden;
+}
+
+.channel-date{
+  flex: none;
+  overflow-x: hidden;
+  width: 100%;
 }

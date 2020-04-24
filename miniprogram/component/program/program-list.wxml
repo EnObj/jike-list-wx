@@ -1,4 +1,4 @@
 <view style="height:100%;">
-  <program-list-a program-list="{{programList}}" wx:if="{{channel.listStyle=='a'}}" />
-  <program-list-b program-list="{{programList}}" wx:if="{{channel.listStyle=='a'}}" />
+  <program-list-a program-list="{{programList}}" wx:if="{{channel.listStyle=='a'}}" style="height:100%;"/>
+  <program-list-b program-list="{{programList}}" wx:if="{{channel.listStyle=='b'}}" style="height:100%;"/>
 </view>
