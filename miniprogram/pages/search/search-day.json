@@ -1,7 +1,6 @@
 {
-  "component": true,
   "usingComponents": {
-    "search-inp": "../../component/search/search-inp",
-    "program-list": "../../component/program/program-list"
+    "search-day": "../../component/search/search-day",
+    "search-inp": "../../component/search/search-inp"
   }
 }

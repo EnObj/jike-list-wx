@@ -1,129 +1,72 @@
-const dateUtils = require('./../../utils/dateUtils.js')
-const channelUtils = require('./../../utils/channelUtils.js')
-const db = wx.cloud.database()
-const _ = db.command
-const dateFilters = {
-  '昨日': {
-    where: _.lt,
-    sort: 'desc'
-  },
-  '今日': {
-    where: (a) => a,
-    sort: 'asc'
-  },
-  '明日': {
-    where: _.gt,
-    sort: 'asc'
-  }
-}
-
-// component/search/search-result-day.js
-Component({
-  /**
-   * 组件的属性列表
-   */
-  properties: {
-    keyword: {
-      type: String
-    },
-    mode: {
-      type: String,
-      value: 'page'
-    },
-    whereDate: {
-      type: String,
-      value: '今日'
-    }
-  },
-
-  observers: {
-    'keyword': function (value) {
-      value && this.search()
-    }
-  },
+// miniprogram/pages/search/search-day.js
+Page({
 
   /**
-   * 组件的初始数据
+   * 页面的初始数据
    */
   data: {
-    count: 0,
-    list: null,
-    channels: {}
-  },
-
-  lifetimes: {
-    attached() {
-      channelUtils.getChannelList(db).then(channels => {
-        this.setData({
-          channels: (channels || []).reduce((channelMap, channel) => {
-            channelMap[channel.code] = channel
-            return channelMap
-          }, {})
-        })
-      })
-    }
+    options: null,
+    more: 0
   },
 
   /**
-   * 组件的方法列表
+   * 生命周期函数--监听页面加载
    */
-  methods: {
-    search() {
-      const today = dateUtils.getDateObj(new Date())
-      const dateFilter = dateFilters[this.data.whereDate]
-      const query = db.collection('program_list').where({
-        date: dateFilter.where('' + today.int8Date),
-        list: _.elemMatch({
-          title: db.RegExp({
-            regexp: this.data.keyword,
-            options: 'i'
-          })
-        })
-      }).orderBy('date', dateFilter.sort)
+  onLoad: function (options) {
+    options.whereDate = options.whereDate || '今日'
+    this.setData({
+      options: options
+    })
+  },
 
-      query.count().then(res => {
-        this.setData({
-          count: res.total,
-          list: []
-        })
-        this.searchByPage(0, query).then(res => {
-          this.query = query
-        })
-      })
-    },
-    searchByPage: function (skip, query) {
-      wx.showLoading({
-        title: '加载中',
-      })
-      return query.skip(skip).limit(10).get().then(res => {
-        var list = res.data
-        list.forEach(programList => {
-          programList.list = programList.list.filter(program => {
-            return program.title.indexOf(this.data.keyword) > -1
-          })
-          programList.dateObj = dateUtils.getDateObj(dateUtils.int8DateReback(programList.date))
-        })
-        wx.hideLoading()
-        this.setData({
-          list: this.data.list.concat(list)
-        })
-      })
-    },
-    searchWithDate: function (event) {
-      this.setData({
-        whereDate: event.currentTarget.dataset.date
-      })
-      this.search()
-    },
-    searchKeyword: function(event){
-      this.setData({
-        keyword: event.detail.value
-      })
-    },
-    focus: function(){
-      this.setData({
-        list: null
-      })
-    }
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+    this.setData({
+      more: ++this.data.more
+    })
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
   }
 })

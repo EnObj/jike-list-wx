@@ -3,7 +3,7 @@ const cloud = require('wx-server-sdk')
 const http = require('http');
 
 cloud.init({
-  env: cloud.DYNAMIC_CURRENT_ENV
+  env: 'jike-v2-hnr1l'
 })
 
 const db = cloud.database()
@@ -15,7 +15,7 @@ exports.main = async(event, context) => {
   return loadAllChannels([]).then(channels => {
     channels.forEach(channel => {
       week.dateList.forEach(date => {
-        console.log('整在处理：' + channel.code + ' ' + date.int8Date)
+        console.log('正在处理：' + channel.code + ' ' + date.int8Date)
         var promise = syncProgrtams(channel.code, date.int8Date)
         promises.push(promise)
       })
@@ -36,10 +36,13 @@ const syncProgrtams = function(channelCode, date) {
         var cctvItem = res.data[channelCode]
         var programList = {
           channelCode: channelCode,
-          date: date
+          date: ''+date
         }
         db.collection('program_list').where(programList).remove().then(res => {
-          programList.list = cctvItem.list
+          programList.list = cctvItem.list.map(program => {
+            program.insideId = '' + program.startTime
+            return program
+          })
           db.collection('program_list').add({
             data: programList
           }).then(res => {
@@ -53,7 +56,9 @@ const syncProgrtams = function(channelCode, date) {
 
 const loadAllChannels = function(channels) {
   var limit = 20
-  return db.collection('channel').where({}).skip(channels.length).limit(limit).get().then(res => {
+  return db.collection('channel').where({
+    type: 'cctv'
+  }).skip(channels.length).limit(limit).get().then(res => {
     channels = channels.concat(res.data)
     if (res.data.length == limit) {
       return loadAllChannels(channels);
