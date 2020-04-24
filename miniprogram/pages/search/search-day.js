@@ -6,6 +6,7 @@ Page({
    */
   data: {
     options: null,
+    keyword: '',
     more: 0
   },
 
@@ -23,7 +24,23 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    if (this.data.options.keyword) {
+      this.setData({
+        keyword: this.data.options.keyword
+      })
+    }
+  },
 
+  focus: function () {
+    this.setData({
+      keyword: ''
+    })
+  },
+
+  search: function (event) {
+    this.setData({
+      keyword: event.detail.value
+    })
   },
 
   /**

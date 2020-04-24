@@ -1,3 +1,5 @@
-<search-inp keyword="{{options.keyword}}" bindkeywordchange="searchKeyword" bindfocus="focus" />
+<search-inp keyword="{{options.keyword}}" bindkeywordchange="search" bindfocus="focus" />
 
-<search-day keyword="{{options.keyword}}" mode="page" where-date="{{options.whereDate}}" more="{{more}}" />
+<view wx:if="{{keyword}}">
+  <search-day keyword="{{keyword}}" mode="page" where-date="{{options.whereDate}}" more="{{more}}" />
+</view>
