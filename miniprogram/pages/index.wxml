@@ -17,7 +17,6 @@
 
 <view>
   <view class="programs" wx:if="{{currentChannelObj && currentDate}}">
-    <program-list program-list="{{programList}}" wx:if="{{currentChannelObj.listStyle=='a'}}"/>
-    <program-list-b program-list="{{programList}}" wx:if="{{currentChannelObj.listStyle=='b'}}"/>
+    <program-list program-list="{{programList}}" style="height:100%;"/>
   </view>
 </view>

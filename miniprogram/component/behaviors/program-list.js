@@ -36,7 +36,8 @@ module.exports = Behavior({
           })
         })
       }
-    }
+    },
+    keyword: String
   },
 
   /**

@@ -1,6 +1,7 @@
 {
   "component": true,
   "usingComponents": {
-    "mp-icon": "../icon/icon"
+    "program-list-a":"./program-list-a",
+    "program-list-b": "./program-list-b"
   }
 }

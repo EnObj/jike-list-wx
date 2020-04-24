@@ -1,0 +1,5 @@
+<search-inp keyword="{{options.keyword}}" bindkeywordchange="search" bindfocus="focus" />
+
+<view wx:if="{{keyword}}">
+  <search-year keyword="{{keyword}}" mode="page" where-date= more="{{more}}" />
+</view>

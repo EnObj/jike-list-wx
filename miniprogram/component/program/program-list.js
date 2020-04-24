@@ -1,41 +1,24 @@
-const dateUtils = require('./../../utils/dateUtils.js')
+const channelUtils = require('./../../utils/channelUtils.js')
 const db = wx.cloud.database()
-const programListBehavior = require('./../behaviors/program-list.js')
 
 // component/program/program-list.js
 Component({
-
-  behaviors: [programListBehavior],
-
   /**
    * 组件的属性列表
    */
   properties: {
-
+    programList: Object
   },
 
   observers: {
     'programList': function(programList) {
-      if (!programList){
-        return
+      if (programList) {
+        channelUtils.getChannelByCode(db, programList.channelCode).then(channel => {
+          this.setData({
+            channel: channel
+          })
+        })
       }
-      var currentProgram = programList.list[0] || {}
-      const programs = programList.list.map((program, index) => {
-        // 得到播放状态
-        if (program.startTime * 1000 > Date.now()) {
-          program.status = 'fulture'
-        } else if (program.endTime * 1000 < Date.now()) {
-          program.status = 'over'
-        } else {
-          program.status = 'curr'
-          currentProgram = program
-        }
-        return program
-      })
-      this.setData({
-        programs: programs,
-        currentProgram: currentProgram
-      })
     }
   },
 
@@ -43,111 +26,13 @@ Component({
    * 组件的初始数据
    */
   data: {
-    currentProgram: null,
-    programs: []
+    channel: null
   },
 
   /**
    * 组件的方法列表
    */
   methods: {
-    signWithMore(program) {
-      if (program.status == 'fulture') {
-        return new Promise((resolve, reject) => {
-          var tmplId = 'PeNNc-AQ5M2ZLE6BniC5YJwCcVAd1UVlsq7dZEz1n0w'
-          wx.requestSubscribeMessage({
-            tmplIds: [tmplId],
-            success(res) {
-              console.log(res)
-              if (res[tmplId] == 'accept') {
-                resolve({
-                  needNotify: true,
-                  notify: {
-                    status: 'wait'
-                  }
-                })
-              } else {
-                resolve({
-                  needNotify: false
-                })
-              }
-            },
-            fail(res) {
-              console.log(res)
-              resolve({
-                needNotify: false
-              })
-            }
-          })
-        })
-      }
-      return Promise.resolve({})
-    },
-    // signAction: function(event) {
-    //   var program = this.data.list[event.currentTarget.dataset.programIndex]
 
-    //   var promise = Promise.resolve({})
-    //   if (program.status == 'fulture') {
-    //     promise = new Promise((resolve, reject) => {
-    //       var tmplId = 'PeNNc-AQ5M2ZLE6BniC5YJwCcVAd1UVlsq7dZEz1n0w'
-    //       wx.requestSubscribeMessage({
-    //         tmplIds: [tmplId],
-    //         success(res) {
-    //           console.log(res)
-    //           if (res[tmplId] == 'accept') {
-    //             resolve({
-    //               needNotify: true,
-    //               notify = {
-    //                 status: 'wait'
-    //               }
-    //             })
-    //           } else {
-    //             resolve({
-    //               needNotify: false
-    //             })
-    //           }
-    //         },
-    //         fail(res) {
-    //           console.log(res)
-    //           resolve({
-    //             needNotify: false
-    //           })
-    //         }
-    //       })
-    //     })
-    //   }
-
-    //   promise.then(res => {
-    //     var userAction = {
-    //       channel: this.data.channel,
-    //       date: this.data.date,
-    //       programInsideId: program.insideId,
-    //       program: program
-    //     }
-    //     if (res.needNotify) {
-    //       userAction.needNotify = true
-    //       userAction.notify = {
-    //         status: 'wait'
-    //       }
-    //     }
-    //     db.collection('user_action').add({
-    //       data: userAction
-    //     }).then(res => {
-    //       db.collection('user_action').doc(res._id).get().then(res => {
-    //         var userAction = res.data
-    //         var userActions = this.data.userActions
-    //         userActions[userAction.programInsideId] = userAction
-    //         var hotStates = this.data.hotStates
-    //         var hotState = hotStates[userAction.programInsideId] || 0
-    //         hotState++
-    //         hotStates[userAction.programInsideId] = hotState
-    //         this.setData({
-    //           userActions: userActions,
-    //           hotStates: hotStates
-    //         })
-    //       })
-    //     })
-    //   })
-    // }
   }
 })

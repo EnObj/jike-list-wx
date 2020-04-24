@@ -1,0 +1,16 @@
+<template is="{{mode}}" data="{{list}}">
+</template>
+
+<template name="card">
+  <view>卡片</view>
+  <view wx:for="{{list}}" wx:key="_id">
+    <program-list program-list="{{item}}" />
+  </view>
+</template>
+
+<template name="page">
+  <view>页面</view>
+  <view wx:for="{{list}}" wx:key="_id">
+    <program-list program-list="{{item}}" />
+  </view>
+</template>

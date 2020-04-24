@@ -2,7 +2,8 @@
   "usingComponents": {
     "mp-icon": "../../component/icon/icon",
     "search-inp": "../../component/search/search-inp",
-    "search-day": "../../component/search/search-day"
+    "search-day": "../../component/search/search-day",
+    "search-year": "../../component/search/search-year"
   },
   "navigationBarTitleText": "搜索"
 }

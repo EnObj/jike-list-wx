@@ -5,4 +5,7 @@
   <view>
     <search-day keyword="{{keyword}}" mode="card"/>
   </view>
+  <view>
+    <search-year keyword="{{keyword}}" mode="card"/>
+  </view>
 </view>
