@@ -79,19 +79,17 @@ module.exports = Behavior({
           data: userAction
         }).then(res => {
           db.collection('user_action').doc(res._id).get().then(res => {
-            // 把userAction添加到本地
             var userAction = res.data
-            var userActions = this.data.userActions
-            userActions[userAction.programInsideId] = userAction
+            const updater = {}
+            // 把userAction添加到本地
+            const newUserActionKey = 'userActions.' + userAction.programInsideId
+            updater[newUserActionKey] = userAction
             // 改变hot值
             var hotStates = this.data.hotStates
-            var hotState = hotStates[userAction.programInsideId] || 0
-            hotState++
-            hotStates[userAction.programInsideId] = hotState
-            this.setData({
-              userActions: userActions,
-              hotStates: hotStates
-            })
+            const hotStateKey = 'hotStates.' + userAction.programInsideId
+            updater[hotStateKey] = hotStates[userAction.programInsideId] || 0
+            updater[hotStateKey]++
+            this.setData(updater)
           })
         })
       })
@@ -116,17 +114,16 @@ module.exports = Behavior({
               date: _this.data.programList.date,
               programInsideId: programInsideId,
             }).remove().then(res => {
+              const updater = {}
               // 删除本地userAction
-              delete userActions[programInsideId]
+              const newUserActionKey = 'userActions.' + programInsideId
+              updater[newUserActionKey] = null
               // 改变hot值
               var hotStates = _this.data.hotStates
-              var hotState = hotStates[programInsideId] || 0
-              hotState--
-              hotStates[programInsideId] = hotState
-              _this.setData({
-                userActions: userActions,
-                hotStates: hotStates
-              })
+              const hotStateKey = 'hotStates.' + programInsideId
+              updater[hotStateKey] = hotStates[programInsideId] || 0
+              updater[hotStateKey]--
+              _this.setData(updater)
             })
           }
         }
