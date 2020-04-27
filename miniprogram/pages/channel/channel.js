@@ -21,8 +21,6 @@ Page({
   onLoad: function (options) {
     // 查询频道对象
     channelUtils.getChannelByCode(db, options.channel).then(channel=>{
-      // 日期未传，询问频道
-      options.date = channel.recentDate
       this.setData({
         channel: channel,
         options: options,

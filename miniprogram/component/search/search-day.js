@@ -57,8 +57,9 @@ Component({
     afterQuery(list){
       list.forEach(programList=>{
         programList.list = programList.list.filter(program=>{
-          return program.seo.indexOf(this.data.keyword) >= 0
+          return program.title.indexOf(this.data.keyword) >= 0
         })
+        programList.dateObj = dateUtils.getDateObj(dateUtils.int8DateReback(programList.date))
       })
       return list
     },
