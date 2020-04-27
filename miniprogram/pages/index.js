@@ -44,14 +44,16 @@ Page({
   },
 
   initChannelList: function(channelCode) {
+    const focusedChannels = this.data.userProfile.focusedChannels
     return channelUtils.getChannelList(db, {
-      code: db.command.in(this.data.userProfile.focusedChannels)
+      code: db.command.in(focusedChannels)
     }).then(channelList => {
+      channelList.sort((a, b) => { return focusedChannels.indexOf(a.code) - focusedChannels.indexOf(b.code) })
       var currentChannel = channelList[0]
       if (channelCode) {
         currentChannel = channelList.find(channel => {
           return channel.code == channelCode
-        })
+        }) || currentChannel
       }
       this.setData({
         channelList: channelList
@@ -92,7 +94,7 @@ Page({
         userProfile: userProfile
       })
       // 初始化关注频道
-      this.initChannelList().then(channelObj => {
+      this.initChannelList(this.data.currentChannelObj && this.data.currentChannelObj.code).then(channelObj => {
         this.setData({
           locDate: channelObj.recentDate,
           currentChannelObj: channelObj
