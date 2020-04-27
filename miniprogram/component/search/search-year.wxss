@@ -1,1 +1,25 @@
-/* component/search/search-year.wxss */
+@import "./../style/my-style.wxss";
+.filter-bar{
+  display: flex;
+  justify-content: space-around;
+}
+
+.date-filter{
+  color: gray;
+  padding: 5px;
+}
+
+.active-date-filter{
+  border-bottom: 2px #444 solid;
+  color: #444;
+}
+
+.channel-result{
+  margin: 10px 10px 20px;
+  background: #fff;
+  border-radius: 5px;
+}
+
+.channel-result-title{
+  padding: 10px 10px 0;
+}

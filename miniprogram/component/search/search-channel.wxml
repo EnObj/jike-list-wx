@@ -1,0 +1,25 @@
+<template is="{{mode}}" data="{{list,keyword,focusedMap,userProfile}}">
+</template>
+
+<template name="card">
+  <view class="padding-box" style="padding:0px;">
+    <view class="flex-between card-title">
+      <view>频道</view>
+      <navigator url="/pages/search/search-channel?keyword={{keyword}}">
+        <view class="not-importent">全部</view>
+      </navigator>
+    </view>
+    <view wx:for="{{list}}" wx:key="_id" style="padding:10px;">
+      <channel focused="{{focusedMap[item.code]}}" channel="{{item}}" user-profile-id="{{userProfile._id}}" />
+    </view>
+    <view class="not-importent" hidden="{{list.length}}" style="text-align:center;padding:10px;">
+      没有结果
+    </view>
+  </view>
+</template>
+
+<template name="page">
+  <view wx:for="{{list}}" wx:key="_id" class="padding-box">
+    <channel focused="{{focusedMap[item.code]}}" channel="{{item}}" user-profile-id="{{userProfile._id}}" />
+  </view>
+</template>

@@ -1,33 +1,36 @@
-  <view wx:for="{{programList.list}}" wx:key="insideId" class="padding-box">
-    <view style="display:flex;">
-      <view wx:if="{{item.image}}" style="margin-right:10px;">
-        <image src="{{item.image}}" mode="widthFix" style="width:80px;"></image>
+<scroll-view scroll-y style="height:100%;">
+  <view wx:for="{{programList.list}}" wx:key="insideId" class="program">
+    <view>
+      <view wx:if="{{item.image}}" style="text-align:center;margin-bottom:10px;">
+        <image src="{{item.image}}" mode="widthFix" style="width:200px;border-radius:50%;"></image>
       </view>
-      <view>
-        <view style="font-weight:700;color:#333;">
-          {{item.title}}
-        </view>
-        <view class="not-importent">
-          <view>{{item.remark}}</view>
-        </view>
-        <view hidden="{{!hotStates[item.insideId]}}" class="flex-start not-importent">
-          <view style="margin-right:5px;">
-            <mp-icon icon="eyes-on" color="gray" size="{{16}}"></mp-icon>
-          </view>
+      <view style="display:flex;">
+        <view style="margin:auto;text-align:center;">
           <view>
-            {{hotStates[item.insideId]}}
+            <view style="font-weight:700;color:#333;">
+              {{item.title}}
+            </view>
           </view>
-        </view>
-      </view>
-    </view>
-    <view style="display: flex;height:50px;">
-      <view style="margin:auto;">
-        <view bindtap="signAction" data-program-index="{{index}}" hidden="{{userActions[item.insideId]}}">
-          <mp-icon icon="eyes-on" color="green" type="field" size="35"></mp-icon>
-        </view>
-        <view bindtap="unsignAction" hidden="{{!userActions[item.insideId]}}" data-program-inside-id="{{item.insideId}}">
-          <mp-icon icon="eyes-off" color="gray" type="field" size="35"></mp-icon>
+          <view class="not-importent" wx:for="{{item.remarks}}" wx:for-item="remark">
+            <view>{{remark}}</view>
+          </view>
+          <!-- <view>
+            <view class="not-importent">
+              <view hidden="{{!hotStates[item.insideId]}}">
+                {{hotStates[item.insideId]}}
+              </view>
+              <view style="margin-left:5px;">
+                <view bindtap="signAction" data-program-index="{{index}}" hidden="{{userActions[item.insideId]}}">
+                  <mp-icon icon="eyes-on" color="gray" size="20"></mp-icon>
+                </view>
+                <view bindtap="unsignAction" hidden="{{!userActions[item.insideId]}}" data-program-inside-id="{{item.insideId}}">
+                  <mp-icon icon="eyes-on" color="gray" type="field" size="20"></mp-icon>
+                </view>
+              </view>
+            </view>
+          </view> -->
         </view>
       </view>
     </view>
   </view>
+</scroll-view>

@@ -2,3 +2,6 @@
 .like{
   color: red;
 }
+.program{
+  padding: 20px 10px;
+}

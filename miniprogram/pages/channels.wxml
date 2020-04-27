@@ -1,0 +1,4 @@
+<view wx:for="{{channels}}" wx:key="_id" class="padding-box">
+  <channel focused="{{focusedMap[item.code]}}" channel="{{item}}" user-profile-id="{{userProfile._id}}"/>
+</view>
+<view class="not-importent padding-box" style="background:#f6f6f6;text-align:center;" hidden="{{more}}">没有更多了</view>

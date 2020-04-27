@@ -6,7 +6,7 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    locYear: {
+    locDate: {
       type: Number,
       value: 0
     }
@@ -23,9 +23,9 @@ Component({
 
   observers: {
     'currentYear': function(currentYear) {
-      this.triggerEvent('switchyear', currentYear, {})
+      this.triggerEvent('switchdate', currentYear, {})
     },
-    'locYear': function(value) {
+    'locDate': function(value) {
       if (value) {
         // 初始化日期（同步）
         this.initYearList(value)

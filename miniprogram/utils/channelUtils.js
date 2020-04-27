@@ -1,13 +1,6 @@
 module.exports = {
-  getChannelList: function(db, where = {}) {
-    // 缓存暂时关闭
-    // var globalData = getApp().globalData
-    // if (globalData.channels) {
-    //   return Promise.resolve(globalData.channels)
-    // } else {
-      
-    // }
-    return db.collection('channel').where(where).orderBy('sort', 'asc').get().then(res => {
+  getChannelList: function(db, where = {}, skip=0, limit=20) {
+    return db.collection('channel').where(where).orderBy('sort', 'asc').skip(skip).limit(limit).get().then(res => {
       return res.data
     })
   },

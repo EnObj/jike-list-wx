@@ -1,16 +1,47 @@
-<template is="{{mode}}" data="{{list}}">
+<template is="{{mode}}" data="{{list,keyword,whereYear}}">
 </template>
 
 <template name="card">
-  <view>卡片</view>
-  <view wx:for="{{list}}" wx:key="_id">
-    <program-list program-list="{{item}}" />
+  <view class="padding-box" style="padding:0px;">
+    <view class="flex-between card-title">
+      <view>今年</view>
+      <view class="flex-between not-importent">
+        <view style="margin-right:5px;">
+          <navigator url="/pages/search/search-year?keyword={{keyword}}&whereYear=去年">去年</navigator>
+        </view>
+        <view style="margin-right:10px">
+          <navigator url="/pages/search/search-year?keyword={{keyword}}&whereYear=更早">更早</navigator>
+        </view>
+        <navigator url="/pages/search/search-year?keyword={{keyword}}">
+          <view style="color:gray;">更多</view>
+        </navigator>
+      </view>
+    </view>
+    <view wx:for="{{list}}" wx:key="_id">
+      <view style="padding:10px 10px 0">
+        <channel-logo channel-code="{{item.channelCode}}" />
+      </view>
+      <program-list program-list="{{item}}" />
+    </view>
+    <view class="not-importent" hidden="{{list.length}}" style="text-align:center;padding:10px;">
+      没有结果
+    </view>
   </view>
 </template>
 
 <template name="page">
-  <view>页面</view>
-  <view wx:for="{{list}}" wx:key="_id">
+  <view class="filter-bar" hidden="{{!list}}">
+    <view wx:for="{{['今年','去年','更早']}}" wx:key="*this" class="date-filter {{whereYear==item?'active-date-filter':''}}" bindtap="searchWhereYear" data-date="{{item}}">{{item}}</view>
+  </view>
+  <view wx:for="{{list}}" wx:key="_id" class="channel-result">
+    <view class="flex-between channel-result-title">
+      <view>
+        <navigator url="/pages/channel/channel?channel={{item.channelCode}}&date={{item.date}}">
+          <channel-logo channel-code="{{item.channelCode}}" />
+        </navigator>
+      </view>
+      <view hidden="{{whereYear!='更早'}}" class="not-importent">{{item.date}}</view>
+    </view>
     <program-list program-list="{{item}}" />
   </view>
 </template>

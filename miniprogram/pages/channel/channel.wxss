@@ -1,5 +1,5 @@
 .programs{
-  height: calc(100vh - 64px);
+  height: 100%;
 }
 .channel-logo{
   height: 50px;
@@ -7,4 +7,17 @@
 }
 .logo{
   margin: auto
+}
+.flex-box{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+.flex-none{
+  flex: none;
+}
+.flex-auto{
+  flex: auto;
+  overflow: scroll;
 }

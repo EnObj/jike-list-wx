@@ -4,7 +4,7 @@
       <mp-icon icon="search" color="gray" size="{{20}}"></mp-icon>
     </view>
     <view style="flex:auto;margin-left:10px;color:gray;">
-      输入节目名称
+      输入关键词
     </view>
   </navigator>
 </view>

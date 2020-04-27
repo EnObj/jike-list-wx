@@ -83,19 +83,15 @@ module.exports = Behavior({
         title: '加载中',
       })
       return query.skip(skip).limit(modeLimit[this.data.mode]).get().then(res => {
-        var list = res.data
-        // 数据处理交给子类
-        // list.forEach(programList => {
-        //   programList.list = programList.list.filter(program => {
-        //     return program.title.indexOf(this.data.keyword) > -1
-        //   })
-        //   programList.dateObj = dateUtils.getDateObj(dateUtils.int8DateReback(programList.date))
-        // })
+        var list = this.afterQuery(res.data)
         wx.hideLoading()
         this.setData({
           list: this.data.list.concat(list)
         })
       })
+    },
+    afterQuery(list){
+      return list
     }
   }
 })

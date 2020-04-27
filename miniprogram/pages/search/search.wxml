@@ -1,11 +1,15 @@
-
-<search-inp keyword="{{options.keyword}}" bindkeywordchange="search" bindfocus="focus"/>
+<view class="sticky-top">
+  <search-inp keyword="{{options.keyword}}" bindkeywordchange="search" bindfocus="focus" />
+</view>
 
 <view wx:if="{{keyword}}">
   <view>
-    <search-day keyword="{{keyword}}" mode="card"/>
+    <search-channel keyword="{{keyword}}" mode="card" />
   </view>
   <view>
-    <search-year keyword="{{keyword}}" mode="card"/>
+    <search-day keyword="{{keyword}}" mode="card" />
+  </view>
+  <view>
+    <search-year keyword="{{keyword}}" mode="card" />
   </view>
 </view>

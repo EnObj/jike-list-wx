@@ -1,4 +1,4 @@
-<template is="{{mode}}" data="{{list, channels, keyword, whereDate}}">
+<template is="{{mode}}" data="{{list, channels, keyword, whereDate, today}}">
 </template>
 
 <template name="page">
@@ -11,7 +11,6 @@
         <view>
           <navigator url="/pages/channel/channel?channel={{item.channelCode}}&date={{item.date}}">
             <image style="width:60px;height:40px;" mode="aspectFit" src="{{channels[item.channelCode].logo}}"></image>
-            <!-- {{item.channelCode}} -->
           </navigator>
         </view>
         <view hidden="{{whereDate=='今日'}}" class="not-importent">{{item.dateObj.showDate}}</view>
@@ -25,7 +24,7 @@
   <view class="padding-box" style="padding:0px;">
     <view class="flex-between" style="padding:10px;border-bottom:1px #f2f2f2 solid;">
       <view>今日</view>
-      <view class="flex-between">
+      <view class="flex-between not-importent">
         <navigator url="/pages/search/search-day?keyword={{keyword}}&whereDate=昨日">
           <view style="margin-right:5px;">昨日</view>
         </navigator>
@@ -42,12 +41,15 @@
         <view class="flex-between channel-result-title">
           <view>
             <navigator url="/pages/channel/channel?channel={{item.channelCode}}&date={{item.date}}">
-              <image style="width:60px;height:40px;" mode="aspectFit" src="{{channels[item.channelCode].logo}}"></image>
+              <channel-logo channel-code="{{item.channelCode}}" />
             </navigator>
           </view>
           <view hidden="{{whereDate=='今日'}}" class="not-importent">{{item.dateObj.showDate}}</view>
         </view>
         <program-list program-list="{{item}}" />
+      </view>
+      <view class="not-importent" hidden="{{list.length}}" style="text-align:center;padding:10px;">
+        没有结果
       </view>
     </view>
   </view>

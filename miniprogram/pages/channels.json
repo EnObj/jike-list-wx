@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "channel": "../component/channel/channel"
+  }
+}

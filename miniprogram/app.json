@@ -2,10 +2,12 @@
   "pages": [
     "pages/index",
     "pages/pre-search",
+    "pages/channels",
     "pages/search/search",
     "pages/channel/channel",
     "pages/search/search-day",
-    "pages/search/search-year"
+    "pages/search/search-year",
+    "pages/search/search-channel"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -25,6 +27,12 @@
       {
         "pagePath": "pages/index",
         "text": "节目单",
+        "iconPath": "icon/file-list-3-line.png",
+        "selectedIconPath": "icon/file-list-3-fill.png"
+      },
+      {
+        "pagePath": "pages/channels",
+        "text": "发现频道",
         "iconPath": "icon/file-list-3-line.png",
         "selectedIconPath": "icon/file-list-3-fill.png"
       },

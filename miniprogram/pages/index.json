@@ -2,8 +2,9 @@
   "usingComponents": {
     "mp-icon": "../component/icon/icon",
     "program-list": "../component/program/program-list",
-    "day-selector": "../component/program/date-selector",
-    "year-selector": "../component/program/year-selector"
+    "day-selector": "../component/program/day-selector",
+    "year-selector": "../component/program/year-selector",
+    "channel-logo": "../component/channel/channel-logo"
   },
   "disableScroll": true
 }

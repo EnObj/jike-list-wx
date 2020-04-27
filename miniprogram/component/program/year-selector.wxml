@@ -1,5 +1,5 @@
 <view style="margin-right:10px;">
-  <scroll-view scroll-x enable-flex style="display:flex;align-items: flex-start;" scroll-into-view="year-{{currentYear}}">
+  <scroll-view scroll-x enable-flex style="display:flex;align-items: flex-start;" scroll-into-view="year-{{locDate}}">
     <view wx:for="{{yearList}}" wx:key="*this" style="flex:none;padding:5px 10px;" id="year-{{item}}" bindtap="switchDate" data-year="{{item}}">
       <view class="date-list-item {{item == currentYear ? 'current-date-item':''}}">
         <view>{{item}}</view>

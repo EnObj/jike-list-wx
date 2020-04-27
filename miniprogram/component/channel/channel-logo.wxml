@@ -1,0 +1,8 @@
+<view class="logo">
+  <view class="logo-inside">
+    <image style="width:50px;height:50px;" mode="aspectFit" src="{{channel.logo}}" wx:if="{{channel.logo}}"></image>
+    <view class="not-importent nowarp" wx:else>
+      <text>{{channel.name}}</text>
+    </view>
+  </view>
+</view>

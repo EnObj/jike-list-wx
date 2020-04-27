@@ -1,5 +1,5 @@
 <search-inp keyword="{{options.keyword}}" bindkeywordchange="search" bindfocus="focus" />
 
 <view wx:if="{{keyword}}">
-  <search-year keyword="{{keyword}}" mode="page" where-year="{{options.whereYear}}" more="{{more}}" />
+  <search-channel keyword="{{keyword}}" mode="page" more="{{more}}" />
 </view>

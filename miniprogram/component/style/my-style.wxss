@@ -1,23 +1,41 @@
-.flex-between{
+.flex-between {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.flex-start{
+.flex-start {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 
-.padding-box{
-  margin:10px;
-  padding: 15px;
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.padding-box {
+  margin: 10px;
+  padding: 10px;
   border-radius: 5px;
   background: #fff;
 }
 
-.not-importent{
+.not-importent {
   color: gray;
   font-size: 14px;
+}
+
+.card-title {
+  padding: 10px;
+  border-bottom: 1px #f2f2f2 solid;
+}
+
+.sticky-top{
+  position: sticky;
+  top: 0px;
+  background: #f6f6f6;
+  z-index: 10;
 }

@@ -23,7 +23,7 @@ Component({
   },
 
   observers: {
-    'currentDate.int8Date': function(int8Date) {
+    'currentDate.int8Date': function (int8Date) {
       this.triggerEvent('switchdate', int8Date, {})
     },
     'locDate': function (value) {
@@ -35,7 +35,7 @@ Component({
   },
 
   lifetimes: {
-    attached: function() {
+    attached: function () {
       // 今日
       this.setData({
         today: dateUtils.getDateObj(new Date())
@@ -47,7 +47,7 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    initDateList: function(locDate) {
+    initDateList: function (locDate) {
       var dateList = []
       var currentDate = {}
       for (var i = -6; i < 7; i++) {
@@ -72,7 +72,7 @@ Component({
       // })
     },
 
-    bindDateChange: function(event) {
+    bindDateChange: function (event) {
       console.log(event)
       var value = event.detail.value
       var times = value.split('-')
@@ -80,7 +80,7 @@ Component({
       this.initDateList(date)
     },
 
-    switchDate: function(event) {
+    switchDate: function (event) {
       console.log(event)
       this.setData({
         currentDate: event.currentTarget.dataset.date

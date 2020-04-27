@@ -13,7 +13,7 @@ exports.main = async(event, context) => {
   const wxContext = cloud.getWXContext()
 
   var channelCode = event.channelCode
-  var date = event.date
+  var date = '' + event.date
 
   return db.collection('channel').where({
     code: channelCode
@@ -32,8 +32,10 @@ exports.main = async(event, context) => {
             var programList = {
               channelCode: channelCode,
               date: date,
+              dateType: channel.dateType,
               list: cctvItem.list.map(program=>{
                 program.insideId = '' + program.startTime
+                program.seo = program.title
                 return program
               })
             }

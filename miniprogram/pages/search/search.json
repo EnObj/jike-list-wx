@@ -3,7 +3,8 @@
     "mp-icon": "../../component/icon/icon",
     "search-inp": "../../component/search/search-inp",
     "search-day": "../../component/search/search-day",
-    "search-year": "../../component/search/search-year"
+    "search-year": "../../component/search/search-year",
+    "search-channel": "../../component/search/search-channel"
   },
   "navigationBarTitleText": "搜索"
 }

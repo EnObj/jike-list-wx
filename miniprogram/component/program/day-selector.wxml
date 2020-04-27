@@ -1,5 +1,5 @@
 <view style="margin-right:10px;">
-  <scroll-view scroll-x enable-flex style="display:flex;align-items: flex-start;" scroll-into-view="date-{{locDay.int8Date}}">
+  <scroll-view scroll-x enable-flex style="display:flex;align-items: flex-start;" scroll-into-view="date-{{locDate}}">
     <view wx:for="{{dateList}}" wx:key="int8Date" style="flex:none;padding:5px 10px;" id="date-{{item.int8Date}}" bindtap="switchDate" data-date="{{item}}">
       <view class="date-list-item {{item.int8Date == currentDate.int8Date ? 'current-date-item':''}}">
         <view>{{item.int8Date == today.int8Date ? '今天' : '星期' + item.showWeek}}</view>

@@ -4,12 +4,17 @@
   </view>
 </view> -->
 
-<view class="channel-date">
-  <date-selector loc-date="{{options.date}}" bindswitchdate="switchDate" />
-</view>
+<view class="flex-box">
+  <view class="flex-none">
+    <view class="channel-date">
+      <day-selector loc-date="{{options.date}}" bindswitchdate="switchDate" wx:if="{{channel.dateType=='day'}}" />
+      <year-selector loc-date="{{options.date}}" bindswitchdate="switchDate" wx:if="{{channel.dateType=='year'}}"/>
+    </view>
+  </view>
 
-<view>
-  <view class="programs" wx:if="{{options.channel && currentDate}}">
-    <program-list program-list="{{programList}}" />
+  <view class="flex-auto">
+    <view class="programs" wx:if="{{programList}}">
+      <program-list program-list="{{programList}}" />
+    </view>
   </view>
 </view>

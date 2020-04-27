@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "search-channel": "../../component/search/search-channel",
+    "search-inp": "../../component/search/search-inp"
+  }
+}

@@ -5,7 +5,7 @@
         <mp-icon icon="search" color="gray" size="{{20}}"></mp-icon>
       </view>
       <view class="search-inp-r">
-        <input value="{{value}}" bindinput="inpChange" focus="{{focus}}" confirm-type="search" bindconfirm="search" bindfocus="focusInp" placeholder="输入节目名称"></input>
+        <input value="{{value}}" bindinput="inpChange" focus="{{focus}}" confirm-type="search" bindconfirm="search" bindfocus="focusInp" placeholder="输入关键词"></input>
       </view>
     </view>
   </view>

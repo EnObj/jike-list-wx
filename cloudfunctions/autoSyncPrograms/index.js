@@ -24,7 +24,8 @@ exports.main = async(event, context) => {
   })
 }
 
-const syncProgrtams = function(channelCode, date) {
+const syncProgrtams = function (channel, date) {
+  const channelCode = channel.code
   return new Promise((resolve, reject) => {
     http.get("http://api.cntv.cn/epg/getEpgInfoByChannelNew?c=" + channelCode + "&serviceId=tvcctv&d=" + date, function(data) {
       var str = "";
@@ -36,11 +37,13 @@ const syncProgrtams = function(channelCode, date) {
         var cctvItem = res.data[channelCode]
         var programList = {
           channelCode: channelCode,
-          date: ''+date
+          date: ''+date,
+          dateType: channel.dateType
         }
         db.collection('program_list').where(programList).remove().then(res => {
           programList.list = cctvItem.list.map(program => {
             program.insideId = '' + program.startTime
+            program.seo = program.title
             return program
           })
           db.collection('program_list').add({

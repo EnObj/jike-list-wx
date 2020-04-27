@@ -19,29 +19,25 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // 日期未传，默认今日
-    options.date = +options.date || dateUtils.getDateObj(new Date()).int8Date
     // 查询频道对象
     channelUtils.getChannelByCode(db, options.channel).then(channel=>{
+      // 日期未传，询问频道
+      options.date = channel.recentDate
       this.setData({
-        channel: channel
+        channel: channel,
+        options: options,
+        currentDate: options.date
       })
       wx.setNavigationBarTitle({
         title: channel.name,
       })
     })
-    this.setData({
-      options: options,
-      currentDate: options.date
-    })
   },
 
   loadProgramList: function (date) {
-    wx.showLoading({
-      title: '加载中'
-    })
+    wx.showNavigationBarLoading()
     programUtils.loadProgramList(this.options.channel, date, db).then(programList => {
-      wx.hideLoading()
+      wx.hideNavigationBarLoading()
       this.setData({
         programList: programList,
         currentDate: date
@@ -52,7 +48,7 @@ Page({
   switchDate: function (event) {
     console.log(event)
     // 加载节目单
-    this.loadProgramList(+event.detail)
+    this.loadProgramList(event.detail)
   },
 
   /**

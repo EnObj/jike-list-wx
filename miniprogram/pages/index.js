@@ -2,6 +2,7 @@ const dateUtils = require('./../utils/dateUtils.js')
 const programUtils = require('./../utils/programUtils.js')
 const channelUtils = require('./../utils/channelUtils.js')
 const db = wx.cloud.database()
+const userProfileUtils = require('./../utils/userProfileUtils.js')
 
 Page({
 
@@ -9,56 +10,42 @@ Page({
    * 页面的初始数据
    */
   data: {
-    options: null,
+    locDate: '',
     currentDate: null,
     channelList: [],
     currentChannelObj: null,
-    programList: null
+    programList: null,
+    userProfile: {}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // 日期类型未传，默认day
-    options.dateType = options.dateType || 'day'
-    // 日期未传，默认值动态确定
-    if (!options.date) {
-      if (options.dateType == 'day') {
-        options.date = '' + dateUtils.getDateObj(new Date()).int8Date
-      }
-      if (options.dateType == 'year') {
-        options.date = '' + new Date().getFullYear()
-      }
-    }
-    // 初始化频道
-    this.initChannelList(options.channel, options.dateType).then(channelObj => {
-      options.channel = channelObj.code
-      this.setData({
-        options: options,
-        currentChannelObj: channelObj,
-        currentDate: options.date
+    // options.channel = 'nbr-wx'
+    // 如果要打开的channel不在关注列表里，去channel页
+    if (options.channel) {
+      wx.reLaunch({
+        url: '/pages/channel/channel?channel=' + options.channel + '&date=' + options.date,
       })
-    })
+      return
+    }
   },
 
   loadProgramList: function(channelObj, date) {
-    wx.showLoading({
-      title: '加载中'
-    })
+    wx.showNavigationBarLoading()
     programUtils.loadProgramList(channelObj.code, date, db).then(programList => {
-      wx.hideLoading()
+      wx.hideNavigationBarLoading()
       this.setData({
         programList: programList,
-        currentChannelObj: channelObj,
         currentDate: date
       })
     })
   },
 
-  initChannelList: function(channelCode, dateType) {
+  initChannelList: function(channelCode) {
     return channelUtils.getChannelList(db, {
-      dateType: dateType
+      code: db.command.in(this.data.userProfile.focusedChannels)
     }).then(channelList => {
       var currentChannel = channelList[0]
       if (channelCode) {
@@ -81,8 +68,11 @@ Page({
 
   switchChannel: function(event) {
     console.log(event)
-    // 加载节目单
-    this.loadProgramList(event.currentTarget.dataset.channel, this.data.currentDate)
+    const channel = event.currentTarget.dataset.channel
+    this.setData({
+      currentChannelObj: channel,
+      'locDate': channel.dateType == this.data.currentChannelObj.dateType ? this.data.currentDate : channel.recentDate
+    })
   },
 
   /**
@@ -96,7 +86,19 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    // 查询关注列表
+    userProfileUtils.getOne(db).then(userProfile => {
+      this.setData({
+        userProfile: userProfile
+      })
+      // 初始化关注频道
+      this.initChannelList().then(channelObj => {
+        this.setData({
+          locDate: channelObj.recentDate,
+          currentChannelObj: channelObj
+        })
+      })
+    })
   },
 
   /**

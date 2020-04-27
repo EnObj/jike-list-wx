@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "date-selector": "../../component/program/date-selector",
+    "day-selector": "../../component/program/day-selector",
+    "year-selector": "../../component/program/year-selector",
     "program-list": "../../component/program/program-list"
   },
   "disableScroll": true

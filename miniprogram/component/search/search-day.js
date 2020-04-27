@@ -35,7 +35,6 @@ Component({
    * 组件的初始数据
    */
   data: {
-
   },
 
   /**
@@ -53,6 +52,22 @@ Component({
       const today = dateUtils.getDateObj(new Date())
       const dateFilter = dateFilters[this.data.whereDate]
       return where.orderBy('date', dateFilter.sort)
+    },
+
+    afterQuery(list){
+      list.forEach(programList=>{
+        programList.list = programList.list.filter(program=>{
+          return program.seo.indexOf(this.data.keyword) >= 0
+        })
+      })
+      return list
+    },
+
+    searchWithDate(event){
+      this.setData({
+        whereDate: event.currentTarget.dataset.date
+      })
+      this.search()
     }
   }
 })
