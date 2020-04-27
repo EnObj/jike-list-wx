@@ -7,10 +7,6 @@ App({
       traceUser: true,
     })
 
-    const db = wx.cloud.database()
-
-    
-
     this.globalData = {}
   }
 })

@@ -48,6 +48,12 @@ Page({
     return channelUtils.getChannelList(db, {
       code: db.command.in(focusedChannels)
     }).then(channelList => {
+      if (channelList.length == 0) {
+        wx.switchTab({
+          url: '/pages/channels',
+        })
+        return Promise.reject()
+      }
       channelList.sort((a, b) => { return focusedChannels.indexOf(a.code) - focusedChannels.indexOf(b.code) })
       var currentChannel = channelList[0]
       if (channelCode) {
