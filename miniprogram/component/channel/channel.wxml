@@ -12,8 +12,8 @@
   </navigator>
   <view>
     <view>
-      <button type="primary" size="mini" bindtap="focus" wx:if="{{!focused}}">关注</button>
-      <button type="default" size="mini" bindtap="unfocus" wx:else>已关注</button>
+      <button type="primary" size="mini" bindtap="focus" wx:if="{{!focused}}">添加</button>
+      <button type="default" size="mini" bindtap="unfocus" wx:else>已添加</button>
     </view>
   </view>
 </view>

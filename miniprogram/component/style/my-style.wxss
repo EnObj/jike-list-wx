@@ -39,3 +39,7 @@
   background: #f6f6f6;
   z-index: 10;
 }
+
+navigator:hover{
+  background: #fff;
+}

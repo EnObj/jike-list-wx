@@ -19,5 +19,6 @@
 }
 .flex-auto{
   flex: auto;
-  overflow: scroll;
+  overflow-y: hidden;
+  height: 100%;
 }
