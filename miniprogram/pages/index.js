@@ -102,7 +102,7 @@ Page({
       // 初始化关注频道
       this.initChannelList(this.data.currentChannelObj && this.data.currentChannelObj.code).then(channelObj => {
         this.setData({
-          locDate: channelObj.recentDate,
+          locDate: this.data.currentDate,
           currentChannelObj: channelObj
         })
       })

@@ -21,7 +21,7 @@ exports.main = async (event, context) => {
     return cloud.openapi.search.submitPages({
       pages: querys.map(query=>{
         return {
-          path: 'pages/index',
+          path: 'pages/channel/channel',
           query: query
         }
       })
@@ -31,7 +31,9 @@ exports.main = async (event, context) => {
 
 const loadAllChannels = function (channels) {
   var limit = 20
-  return db.collection('channel').where({}).skip(channels.length).limit(limit).get().then(res => {
+  return db.collection('channel').where({
+    type: 'cctv'
+  }).skip(channels.length).limit(limit).get().then(res => {
     channels = channels.concat(res.data)
     if (res.data.length == limit) {
       return loadAllChannels(channels);

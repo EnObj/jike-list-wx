@@ -3,7 +3,7 @@ const cloud = require('wx-server-sdk')
 const http = require('http');
 
 cloud.init({
-  env: 'jike-v2-hnr1l'
+  env: cloud.DYNAMIC_CURRENT_ENV
 })
 
 const db = cloud.database()
@@ -16,7 +16,7 @@ exports.main = async(event, context) => {
     channels.forEach(channel => {
       week.dateList.forEach(date => {
         console.log('正在处理：' + channel.code + ' ' + date.int8Date)
-        var promise = syncProgrtams(channel.code, date.int8Date)
+        var promise = syncProgrtams(channel, date.int8Date)
         promises.push(promise)
       })
     })
@@ -37,13 +37,12 @@ const syncProgrtams = function(channel, date) {
         var cctvItem = res.data[channelCode]
         var programList = {
           channelCode: channelCode,
-          date: '' + date,
+          date: date,
           dateType: channel.dateType
         }
         db.collection('program_list').where(programList).remove().then(res => {
           programList.list = cctvItem.list.map(program => {
             program.insideId = '' + program.startTime
-            program.seo = program.title
             return program
           })
           db.collection('program_list').add({
