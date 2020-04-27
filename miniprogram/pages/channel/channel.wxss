@@ -1,12 +1,6 @@
+@import "./../../component/style/my-style.wxss";
 .programs{
   height: 100%;
-}
-.channel-logo{
-  height: 50px;
-  display: flex;
-}
-.logo{
-  margin: auto
 }
 .flex-box{
   display: flex;
@@ -16,6 +10,7 @@
 }
 .flex-none{
   flex: none;
+  background: #fff;
 }
 .flex-auto{
   flex: auto;

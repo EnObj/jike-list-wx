@@ -1,20 +1,16 @@
-<!-- <view class="channel-logo">
-  <view class="logo">
-    <image style="width:60px;height:40px;" mode="aspectFit" src="{{channel.logo}}"></image>
-  </view>
-</view> -->
-
 <view class="flex-box">
-  <view class="flex-none">
-    <view class="channel-date">
-      <day-selector loc-date="{{options.date}}" bindswitchdate="switchDate" wx:if="{{channel.dateType=='day'}}" />
-      <year-selector loc-date="{{options.date}}" bindswitchdate="switchDate" wx:if="{{channel.dateType=='year'}}"/>
-    </view>
-  </view>
-
   <view class="flex-auto">
     <view class="programs" wx:if="{{programList}}">
       <program-list program-list="{{programList}}" />
+    </view>
+  </view>
+  <view class="flex-none">
+    <view class="channel-date">
+      <day-selector loc-date="{{options.date}}" bindswitchdate="switchDate" wx:if="{{channel.dateType=='day'}}" />
+      <year-selector loc-date="{{options.date}}" bindswitchdate="switchDate" wx:if="{{channel.dateType=='year'}}" />
+    </view>
+    <view class="padding-box">
+      <channel focused="{{focusedMap[channel.code]}}" channel="{{channel}}" user-profile-id="{{userProfile._id}}" />
     </view>
   </view>
 </view>

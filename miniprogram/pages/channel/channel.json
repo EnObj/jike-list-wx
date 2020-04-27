@@ -2,7 +2,8 @@
   "usingComponents": {
     "day-selector": "../../component/program/day-selector",
     "year-selector": "../../component/program/year-selector",
-    "program-list": "../../component/program/program-list"
+    "program-list": "../../component/program/program-list",
+    "channel": "../../component/channel/channel"
   },
   "disableScroll": true
 }
