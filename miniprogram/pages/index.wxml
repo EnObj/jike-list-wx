@@ -1,6 +1,6 @@
 <view class="index-box">
-  <view class="programs">
-    <program-list program-list="{{programList}}" wx:if="{{programList}}" style="height:100%;" />
+  <view class="program-list">
+    <program-list program-list="{{programList}}" wx:if="{{programList}}"/>
   </view>
   <view class="channel-date">
     <!--不通的日期类型渲染出不通的日期选择器-->

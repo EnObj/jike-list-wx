@@ -1,1 +1,4 @@
-/* component/program/program-list.wxss */
+:host {
+  height: 100%;
+  overflow-y: auto;
+}
