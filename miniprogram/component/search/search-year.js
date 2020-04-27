@@ -3,15 +3,15 @@ const db = wx.cloud.database()
 const _ = db.command
 const dateFilters = {
   '今年': {
-    where: (a) => '' + a,
+    where: (a) => a,
     sort: 'desc'
   },
   '去年': {
-    where: (a) => '' + --a,
+    where: (a) => --a,
     sort: 'asc'
   },
   '更早': {
-    where: (a) => _.lt('' + --a),
+    where: (a) => _.lt(--a),
     sort: 'asc'
   }
 }

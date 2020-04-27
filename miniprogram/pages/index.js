@@ -71,7 +71,7 @@ Page({
   switchDate: function(event) {
     console.log(event)
     // 加载节目单
-    this.loadProgramList(this.data.currentChannelObj, '' + event.detail)
+    this.loadProgramList(this.data.currentChannelObj, event.detail)
   },
 
   switchChannel: function(event) {

@@ -6,7 +6,7 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    locDate: String
+    locDate: Number
   },
 
   /**
@@ -29,7 +29,7 @@ Component({
         value = today.int8Date
       }
       // 初始化日期（同步）
-      this.initDateList(dateUtils.int8DateReback(+value))
+      this.initDateList(dateUtils.int8DateReback(value))
       this.setData({
         today: today
       })

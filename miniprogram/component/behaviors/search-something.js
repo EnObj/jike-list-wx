@@ -55,7 +55,7 @@ module.exports = Behavior({
       const where = this.getWhere()
       const query = db.collection('program_list').where({
         list: _.elemMatch({
-          seo: db.RegExp({
+          title: db.RegExp({
             regexp: this.data.keyword,
             options: 'i'
           })
