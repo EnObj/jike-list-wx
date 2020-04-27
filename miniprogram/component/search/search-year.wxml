@@ -1,4 +1,4 @@
-<template is="{{mode}}" data="{{list,keyword,whereYear}}">
+<template is="{{mode}}" data="{{list,keyword,whereYear,count}}">
 </template>
 
 <template name="card">
@@ -9,11 +9,11 @@
         <view style="margin-right:5px;">
           <navigator url="/pages/search/search-year?keyword={{keyword}}&whereYear=去年">去年</navigator>
         </view>
-        <view style="margin-right:10px">
+        <view>
           <navigator url="/pages/search/search-year?keyword={{keyword}}&whereYear=更早">更早</navigator>
         </view>
-        <navigator url="/pages/search/search-year?keyword={{keyword}}">
-          <view style="color:gray;">更多</view>
+        <navigator url="/pages/search/search-year?keyword={{keyword}}" hidden="{{count==list.length}}">
+          <view style="color:gray;margin-left:10px">更多</view>
         </navigator>
       </view>
     </view>
@@ -23,7 +23,7 @@
       </view>
       <program-list program-list="{{item}}" />
     </view>
-    <view class="not-importent" hidden="{{list.length}}" style="text-align:center;padding:10px;">
+    <view class="not-importent message" hidden="{{count}}">
       没有结果
     </view>
   </view>
@@ -43,5 +43,8 @@
       <view hidden="{{whereYear!='更早'}}" class="not-importent">{{item.date}}</view>
     </view>
     <program-list program-list="{{item}}" />
+  </view>
+  <view class="not-importent message" hidden="{{count}}">
+    没有结果
   </view>
 </template>

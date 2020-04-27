@@ -1,9 +1,9 @@
-<template is="{{mode}}" data="{{list, channels, keyword, whereDate, today}}">
+<template is="{{mode}}" data="{{list, channels, keyword, whereDate, today,count}}">
 </template>
 
 <template name="page">
   <view class="filter-bar" hidden="{{!list}}">
-    <view wx:for="{{['昨日','今日','明日']}}" wx:key="*this" class="date-filter {{whereDate==item?'active-date-filter':''}}" bindtap="searchWithDate" data-date="{{item}}">{{item}}</view>
+    <view wx:for="{{['历史','今日','预告']}}" wx:key="*this" class="date-filter {{whereDate==item?'active-date-filter':''}}" bindtap="searchWithDate" data-date="{{item}}">{{item}}</view>
   </view>
   <view class="result-bar">
     <view wx:for="{{list}}" wx:key="_id" class="channel-result">
@@ -17,6 +17,9 @@
       </view>
       <program-list program-list="{{item}}" />
     </view>
+    <view class="not-importent message" hidden="{{count}}">
+      没有结果
+    </view>
   </view>
 </template>
 
@@ -25,14 +28,14 @@
     <view class="flex-between" style="padding:10px;border-bottom:1px #f2f2f2 solid;">
       <view>今日</view>
       <view class="flex-between not-importent">
-        <navigator url="/pages/search/search-day?keyword={{keyword}}&whereDate=昨日">
-          <view style="margin-right:5px;">昨日</view>
+        <navigator url="/pages/search/search-day?keyword={{keyword}}&whereDate=历史">
+          <view style="margin-right:5px;">历史</view>
         </navigator>
-        <navigator url="/pages/search/search-day?keyword={{keyword}}&whereDate=明日">
-          <view style="margin-right:10px;">明日</view>
+        <navigator url="/pages/search/search-day?keyword={{keyword}}&whereDate=预告">
+          <view>预告</view>
         </navigator>
-        <navigator url="/pages/search/search-day?keyword={{keyword}}">
-          <view style="color:gray;">更多</view>
+        <navigator url="/pages/search/search-day?keyword={{keyword}}" hidden="{{count==list.length}}">
+          <view style="color:gray;margin-left:10px;">更多</view>
         </navigator>
       </view>
     </view>
@@ -48,7 +51,7 @@
         </view>
         <program-list program-list="{{item}}" />
       </view>
-      <view class="not-importent" hidden="{{list.length}}" style="text-align:center;padding:10px;">
+      <view class="not-importent message" hidden="{{count}}">
         没有结果
       </view>
     </view>

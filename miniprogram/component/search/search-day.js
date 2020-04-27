@@ -3,7 +3,7 @@ const dateUtils = require('./../../utils/dateUtils')
 const db = wx.cloud.database()
 const _ = db.command
 const dateFilters = {
-  '昨日': {
+  '历史': {
     where: _.lt,
     sort: 'desc'
   },
@@ -11,7 +11,7 @@ const dateFilters = {
     where: (a) => a,
     sort: 'asc'
   },
-  '明日': {
+  '预告': {
     where: _.gt,
     sort: 'asc'
   }
@@ -44,7 +44,7 @@ Component({
     getWhere() {
       const today = dateUtils.getDateObj(new Date())
       const dateFilter = dateFilters[this.data.whereDate]
-      return {date: dateFilter.where('' + today.int8Date),
+      return {date: dateFilter.where(today.int8Date),
       dateType: 'day'}
     },
 

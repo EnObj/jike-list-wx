@@ -4,13 +4,13 @@
       <view>
         <channel-logo channel="{{channel}}" />
       </view>
-      <view style="margin-left:10px;">
+      <view style="margin:0 10px;">
         <view>{{channel.name}}</view>
-        <view class="not-importent">最近记录，描述等</view>
+        <view class="not-importent">{{channel.desc||'什么也没介绍'}}</view>
       </view>
     </view>
   </navigator>
-  <view>
+  <view style="flex:none;">
     <view>
       <button type="primary" size="mini" bindtap="focus" wx:if="{{!focused}}">添加</button>
       <button type="default" size="mini" bindtap="unfocus" wx:else>已添加</button>
