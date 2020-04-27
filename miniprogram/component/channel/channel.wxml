@@ -1,12 +1,23 @@
+<wxs module="text">
+  module.exports={
+    limit: function(text, len, defaultText){
+      text = text || defaultText || '';
+      if(text.length < len){
+        return text;
+      }
+      return text.substring(0, len) + '…';
+    }
+  }
+</wxs>
 <view class="flex-between">
-  <navigator url="/pages/channel/channel?channel={{channel.code}}">
+  <navigator url="/pages/channel/channel?channel={{channel.code}}" style="flex:auto;">
     <view class="flex-start">
       <view>
         <channel-logo channel="{{channel}}" />
       </view>
       <view style="margin:0 10px;">
         <view>{{channel.name}}</view>
-        <view class="not-importent">{{channel.desc||'什么也没介绍'}}</view>
+        <view class="not-importent">{{text.limit(channel.desc, 20, '什么也没有介绍')}}</view>
       </view>
     </view>
   </navigator>
