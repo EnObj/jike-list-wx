@@ -10,7 +10,7 @@
       <view class="flex-between channel-result-title">
         <view>
           <navigator url="/pages/channel/channel?channel={{item.channelCode}}&date={{item.date}}">
-            <image style="width:60px;height:40px;" mode="aspectFit" src="{{channels[item.channelCode].logo}}"></image>
+            <channel-logo channel-code="{{item.channelCode}}" />
           </navigator>
         </view>
         <view hidden="{{whereDate=='今日'}}" class="not-importent">{{item.dateObj.showDate}}</view>

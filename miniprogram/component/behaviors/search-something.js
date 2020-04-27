@@ -33,18 +33,9 @@ module.exports = Behavior({
   },
   data: {
     count: 0,
-    list: null,
-    channels: {}
+    list: null
   },
   attached() {
-    channelUtils.getChannelList(db).then(channels => {
-      this.setData({
-        channels: (channels || []).reduce((channelMap, channel) => {
-          channelMap[channel.code] = channel
-          return channelMap
-        }, {})
-      })
-    })
   },
   methods: {
     search() {

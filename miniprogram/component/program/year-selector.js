@@ -6,10 +6,7 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    locDate: {
-      type: Number,
-      value: 0
-    }
+    locDate: String
   },
 
   /**
@@ -26,10 +23,10 @@ Component({
       this.triggerEvent('switchdate', currentYear, {})
     },
     'locDate': function(value) {
-      if (value) {
-        // 初始化日期（同步）
-        this.initYearList(value)
+      if (!value) {
+        value = new Date().getFullYear()
       }
+      this.initYearList(+value)
     }
   },
 

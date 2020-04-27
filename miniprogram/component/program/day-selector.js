@@ -6,10 +6,7 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    locDate: {
-      type: Number,
-      value: 0
-    }
+    locDate: String
   },
 
   /**
@@ -27,10 +24,15 @@ Component({
       this.triggerEvent('switchdate', int8Date, {})
     },
     'locDate': function (value) {
-      if (value) {
-        // 初始化日期（同步）
-        this.initDateList(dateUtils.int8DateReback(value))
+      const today = dateUtils.getDateObj(new Date())
+      if (!value) {
+        value = today.int8Date
       }
+      // 初始化日期（同步）
+      this.initDateList(dateUtils.int8DateReback(+value))
+      this.setData({
+        today: today
+      })
     }
   },
 
@@ -38,7 +40,7 @@ Component({
     attached: function () {
       // 今日
       this.setData({
-        today: dateUtils.getDateObj(new Date())
+        
       })
     }
   },
