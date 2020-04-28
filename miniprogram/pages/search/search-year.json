@@ -2,5 +2,6 @@
   "usingComponents": {
     "search-year": "../../component/search/search-year",
     "search-inp": "../../component/search/search-inp"
-  }
+  },
+  "navigationBarTitleText": "搜索"
 }

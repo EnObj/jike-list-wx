@@ -2,5 +2,6 @@
   "usingComponents": {
     "search-day": "../../component/search/search-day",
     "search-inp": "../../component/search/search-inp"
-  }
+  },
+  "navigationBarTitleText": "搜索"
 }
