@@ -39,7 +39,7 @@ Page({
     wx.showLoading({
       title: '正在加载',
     })
-    channelUtils.getChannelList(db, {}, this.data.channels.length, limit).then(channels => {
+    return channelUtils.getChannelList(db, {}, this.data.channels.length, limit).then(channels => {
       wx.hideLoading()
       this.setData({
         channels: this.data.channels.concat(channels),
@@ -80,7 +80,11 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-
+    this.setData({
+      channels: []
+    })
+    this.loadChannels()
+    wx.stopPullDownRefresh()
   },
 
   /**

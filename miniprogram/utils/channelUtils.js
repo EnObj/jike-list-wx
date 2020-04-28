@@ -1,6 +1,6 @@
 module.exports = {
   getChannelList: function(db, where = {}, skip=0, limit=20) {
-    return db.collection('channel').where(where).orderBy('sort', 'asc').skip(skip).limit(limit).get().then(res => {
+    return db.collection('channel').where(where).orderBy('createTime', 'asc').skip(skip).limit(limit).get().then(res => {
       return res.data
     })
   },

@@ -2,5 +2,6 @@
   "usingComponents": {
     "channel": "../component/channel/channel"
   },
-  "navigationBarTitleText": "所有频道"
+  "navigationBarTitleText": "所有频道",
+  "enablePullDownRefresh": true
 }
