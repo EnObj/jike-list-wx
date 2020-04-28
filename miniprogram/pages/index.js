@@ -79,7 +79,7 @@ Page({
     const channel = event.currentTarget.dataset.channel
     this.setData({
       currentChannelObj: channel,
-      'locDate': channel.dateType == this.data.currentChannelObj.dateType ? this.data.currentDate : channel.recentDate
+      'locDate': this.goWitchLocDate(channel)
     })
   },
 
@@ -102,11 +102,15 @@ Page({
       // 初始化关注频道
       this.initChannelList(this.data.currentChannelObj && this.data.currentChannelObj.code).then(channelObj => {
         this.setData({
-          locDate: this.data.currentDate,
+          locDate: this.goWitchLocDate(channelObj),
           currentChannelObj: channelObj
         })
       })
     })
+  },
+
+  goWitchLocDate(channel){
+    return channel.dateType == (this.data.currentChannelObj || {}).dateType ? this.data.currentDate : channel.recentDate
   },
 
   /**

@@ -9,7 +9,7 @@
   padding: 5px;
   /* width: 70px; */
   text-align: center;
-  border-bottom: 2px #f6f6f6 solid;
+  border-bottom: 2px #fff solid;
 }
 
 .current-channel-item {
