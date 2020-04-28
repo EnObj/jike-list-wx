@@ -8,6 +8,9 @@ module.exports = Behavior({
     programList: {
       type: Object,
       observer: function(programList) {
+        if (!programList){
+          return
+        }
         // 查询用户动作
         this.queryUserActions({
           date: programList.date,

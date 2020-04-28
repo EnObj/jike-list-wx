@@ -7,12 +7,13 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    programList: Object
+    programList: Object,
+    channel: Object
   },
 
   observers: {
     'programList': function(programList) {
-      if (programList) {
+      if (programList && !this.data.channel) {
         channelUtils.getChannelByCode(db, programList.channelCode).then(channel => {
           this.setData({
             channel: channel

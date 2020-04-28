@@ -1,6 +1,6 @@
 <view class="index-box">
   <view class="program-list">
-    <program-list program-list="{{programList}}" wx:if="{{programList}}"/>
+    <program-list program-list="{{programList}}" channel="{{currentChannelObj}}"/>
   </view>
   <view class="channel-date">
     <!--不通的日期类型渲染出不通的日期选择器-->
