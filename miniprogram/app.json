@@ -32,7 +32,7 @@
       },
       {
         "pagePath": "pages/channels",
-        "text": "发现频道",
+        "text": "所有频道",
         "iconPath": "icon/folder-2-line.png",
         "selectedIconPath": "icon/folder-2-fill.png"
       },

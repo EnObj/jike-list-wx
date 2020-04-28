@@ -1,5 +1,6 @@
 {
   "usingComponents": {
     "channel": "../component/channel/channel"
-  }
+  },
+  "navigationBarTitleText": "所有频道"
 }

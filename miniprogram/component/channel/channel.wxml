@@ -17,7 +17,7 @@
       </view>
       <view style="margin:0 10px;">
         <view>{{channel.name}}</view>
-        <view class="not-importent">{{text.limit(channel.desc, 20, '什么也没有介绍')}}</view>
+        <view class="not-importent">{{text.limit(channel.desc, 25, '什么也没有介绍')}}</view>
       </view>
     </view>
   </navigator>
