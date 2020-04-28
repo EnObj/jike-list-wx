@@ -33,8 +33,8 @@
       {
         "pagePath": "pages/channels",
         "text": "发现频道",
-        "iconPath": "icon/file-list-3-line.png",
-        "selectedIconPath": "icon/file-list-3-fill.png"
+        "iconPath": "icon/folder-2-line.png",
+        "selectedIconPath": "icon/folder-2-fill.png"
       },
       {
         "pagePath": "pages/pre-search",
