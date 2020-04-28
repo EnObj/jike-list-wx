@@ -6,7 +6,9 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    locDate: Number
+    locDate: Number,
+    start: Number,
+    end: Number
   },
 
   /**
@@ -23,9 +25,7 @@ Component({
       this.triggerEvent('switchdate', currentYear, {})
     },
     'locDate': function(value) {
-      if (!value) {
-        value = new Date().getFullYear()
-      }
+      value = value || this.data.end || new Date().getFullYear()
       this.initYearList(+value)
     }
   },
@@ -45,8 +45,12 @@ Component({
   methods: {
     initYearList: function(locYear) {
       var yearList = []
-      for (var i = 0; i < 10; i++) {
-        yearList.push(locYear - i)
+      var nowYear = new Date().getFullYear()
+      for (var i = -5; i < 10; i++) {
+        const value = locYear - i
+        if (value <= this.data.end && value <= nowYear && yearList.length < 10){
+          yearList.push(value)
+        }
       }
       this.setData({
         yearList: yearList,

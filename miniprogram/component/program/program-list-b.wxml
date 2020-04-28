@@ -33,7 +33,7 @@
       </view>
     </view>
   </view>
-  <view class="not-importent" style="margin:15px;font-size:18px;text-align:center;">
+  <view class="not-importent" style="padding:15px;font-size:18px;text-align:center;">
     <view>{{programList.desc}}</view>
   </view>
 </scroll-view>

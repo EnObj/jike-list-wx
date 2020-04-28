@@ -5,7 +5,7 @@
   <view class="channel-date">
     <!--不通的日期类型渲染出不通的日期选择器-->
     <day-selector loc-date="{{locDate}}" bindswitchdate="switchDate" wx:if="{{currentChannelObj.dateType=='day'}}" />
-    <year-selector loc-date="{{locDate}}" bindswitchdate="switchDate" wx:if="{{currentChannelObj.dateType=='year'}}" />
+    <year-selector loc-date="{{locDate}}" bindswitchdate="switchDate" wx:if="{{currentChannelObj.dateType=='year'}}" start="{{currentChannelObj.start}}" end="{{currentChannelObj.end}}"/>
 
     <scroll-view scroll-x enable-flex scroll-into-view="channel-{{currentChannel}}">
       <view class="channel-list">
