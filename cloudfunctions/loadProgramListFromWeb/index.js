@@ -5,7 +5,12 @@ const https = require('https')
 const cheerio = require('cheerio')
 
 const nbeMap = {
-  'nbe-wx': 'literature'
+  'nbe-wlx': 'physics',
+  'nbe-hx': 'chemistry',
+  'nbe-slx-yx': 'medicine',
+  'nbe-wx': 'literature',
+  'nbe-hp': 'peace',
+  'nbe-jjx': 'economic-sciences'
 }
 
 cloud.init({
@@ -71,31 +76,48 @@ exports.main = async(event, context) => {
           date,
           dateType: channel.dateType,
           desc: desc,
-          list: [],
           createTime: new Date()
         }
         // 人物列表：list
-        $('#pjax-well > div:nth-child(1) > section.page-section.laureate-facts > article > div.list-laureates.border-top > figure').each((index, item) => {
-          programList.list.push({
-            title: $(item).find('h3').text().trim(),
-            remarks: [$(item).find('p').last().text().trim()]
+        const listPromises = $('#pjax-well > div:nth-child(1) > section.page-section.laureate-facts > article > div.list-laureates.border-top > figure').map((index, item) => {
+          const imageUrl = $(item).find('source').first().attr('data-srcset')
+          return request(imageUrl, 'binary').then(imageData => {
+            // 存储
+            return cloud.uploadFile({
+              fileContent: Buffer.from(imageData, 'binary'),
+              cloudPath: imageUrl.substr(imageUrl.lastIndexOf('/') + 1)
+            }).then(res=>{
+              return {
+                title: $(item).find('h3').text().trim(),
+                image: res.fileID,
+                remarks: [$(item).find('p').last().text().trim()],
+                insideId: '' + index
+              }
+            })
           })
-        })
-        return db.collection('program_list').add({
-          data: programList
-        }).then(res => {
-          return programList
+        }).get()
+        return Promise.all(listPromises).then(list => {
+          programList.list = list
+          // return programList
+          return db.collection('program_list').add({
+            data: programList
+          }).then(res => {
+            return programList
+          })
         })
       })
     }
   })
-
 }
 
-const request = function(url) {
+const request = function(url, encoding) {
+  console.log(url)
   const proc = url.startsWith('https') ? https : http
   return new Promise((resolve, reject) => {
     proc.get(url, function(res) {
+      if (encoding){
+        res.setEncoding(encoding)
+      }
       var str = "";
       res.on("data", function(chunk) {
         str += chunk; //监听数据响应，拼接数据片段
