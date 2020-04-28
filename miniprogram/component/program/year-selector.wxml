@@ -6,7 +6,7 @@
       </view>
     </view>
     <view style="color:white;flex:none;padding:5px 10px;margin:auto 0px;text-align:center;font-weight:600;background:gray;border-radius:5px;">
-      <picker mode="date" value="{{yearList[0]}}" end="{{nowYear}}" bindchange="bindDateChange" fields="year">
+      <picker mode="date" value="{{yearList[0]+'-01'+'-01'}}" end="{{nowYear}}" bindchange="bindDateChange" fields="year" start="1901">
         <view>更早</view>
       </picker>
     </view>

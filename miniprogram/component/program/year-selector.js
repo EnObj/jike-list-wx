@@ -57,7 +57,9 @@ Component({
     bindDateChange: function(event) {
       console.log(event)
       var value = event.detail.value
-      this.initYearList(+value)
+      this.setData({
+        locDate: +value
+      })
     },
 
     switchDate: function(event) {
