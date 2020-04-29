@@ -6,5 +6,6 @@
     "year-selector": "../component/program/year-selector",
     "channel-logo": "../component/channel/channel-logo"
   },
-  "disableScroll": true
+  "disableScroll": true,
+  "navigationBarTitleText": "节目单"
 }

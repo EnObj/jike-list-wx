@@ -7,7 +7,7 @@
     <day-selector loc-date="{{locDate}}" bindswitchdate="switchDate" wx:if="{{currentChannelObj.dateType=='day'}}" />
     <year-selector loc-date="{{locDate}}" bindswitchdate="switchDate" wx:if="{{currentChannelObj.dateType=='year'}}" start="{{currentChannelObj.start}}" end="{{currentChannelObj.end}}"/>
 
-    <scroll-view scroll-x enable-flex scroll-into-view="channel-{{currentChannel}}">
+    <scroll-view scroll-x enable-flex scroll-into-view="channel-{{initChannelCode}}">
       <view class="channel-list">
         <view wx:for="{{channelList}}" wx:key="code" style="flex:none;padding:0 10px;" id="channel-{{item.code}}" bindtap="switchChannel" data-channel="{{item}}">
           <view class="channel-list-item {{item.code == currentChannelObj.code ? 'current-channel-item':''}}">

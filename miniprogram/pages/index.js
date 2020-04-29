@@ -103,7 +103,8 @@ Page({
       this.initChannelList(this.data.currentChannelObj && this.data.currentChannelObj.code).then(channelObj => {
         this.setData({
           locDate: this.goWitchLocDate(channelObj),
-          currentChannelObj: channelObj
+          currentChannelObj: channelObj,
+          initChannelCode: channelObj.code
         })
       })
     })
@@ -145,11 +146,11 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function() {
-    var channel = this.data.currentChannel
+    var channel = this.data.currentChannelObj
     var date = this.data.currentDate
     return {
       title: '这个频道有好节目了，快来围观！',
-      path: '/pages/index?channel=' + channel + '&date=' + date
+      path: '/pages/index?channel=' + channel.code + '&date=' + date
     }
   }
 })

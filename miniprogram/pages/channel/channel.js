@@ -111,6 +111,9 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return {
+      title: '这个频道有好节目了，快来围观！',
+      path: '/pages/channel/channel?channel=' + this.data.channel.code + '&date=' + this.data.currentDate
+    }
   }
 })

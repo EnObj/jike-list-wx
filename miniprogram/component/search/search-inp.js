@@ -17,7 +17,7 @@ Component({
   data: {
     value: '',
     keywords: [],
-    focus: false,
+    focus: true,
     inpValue: ''
   },
 
