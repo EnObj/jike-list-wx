@@ -84,6 +84,7 @@ Page({
       channels: []
     })
     this.loadChannels()
+    this.loadFocusedMap()
     wx.stopPullDownRefresh()
   },
 
