@@ -62,13 +62,13 @@ module.exports = Behavior({
         }),
         dateType: 'other',
         ...where
-      }).orderBy('date', 'desc')
+      })
       return this.orderBy(query)
     },
     getWhere() {
       return {}
     },
-    orderBy(where) {return where},
+    orderBy(where) { return where.orderBy('date', 'desc')},
     searchByPage: function(skip, query) {
       wx.showLoading({
         title: '加载中',
