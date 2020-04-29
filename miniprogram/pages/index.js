@@ -77,9 +77,16 @@ Page({
   switchChannel: function(event) {
     console.log(event)
     const channel = event.currentTarget.dataset.channel
+    this.locChannel(channel)
+  },
+
+  locChannel(channel){
     this.setData({
       currentChannelObj: channel,
       'locDate': this.goWitchLocDate(channel)
+    })
+    wx.setNavigationBarTitle({
+      title: channel.name,
     })
   },
 
@@ -101,9 +108,8 @@ Page({
       })
       // 初始化关注频道
       this.initChannelList(this.data.currentChannelObj && this.data.currentChannelObj.code).then(channelObj => {
+        this.locChannel(channelObj)
         this.setData({
-          locDate: this.goWitchLocDate(channelObj),
-          currentChannelObj: channelObj,
           initChannelCode: channelObj.code
         })
       })
@@ -111,7 +117,7 @@ Page({
   },
 
   goWitchLocDate(channel){
-    return channel.dateType == (this.data.currentChannelObj || {}).dateType ? this.data.currentDate : channel.recentDate
+    return channel.dateType == (this.data.currentChannelObj || {}).dateType ? this.data.currentDate : channel.recentDate || ''
   },
 
   /**
@@ -149,7 +155,7 @@ Page({
     var channel = this.data.currentChannelObj
     var date = this.data.currentDate
     return {
-      title: '这个频道有好节目了，快来围观！',
+      title: channel.name + '频道有好节目了，快来围观！',
       path: '/pages/index?channel=' + channel.code + '&date=' + date
     }
   }

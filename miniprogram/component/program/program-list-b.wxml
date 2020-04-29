@@ -11,7 +11,7 @@
               {{item.title}}
             </view>
           </view>
-          <view class="not-importent" wx:for="{{item.remarks}}" wx:for-item="remark">
+          <view class="not-importent" wx:for="{{item.remarks}}" wx:for-item="remark" wx:key="*this">
             <view>{{remark}}</view>
           </view>
           <!-- <view>

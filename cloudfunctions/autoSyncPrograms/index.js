@@ -3,7 +3,8 @@ const cloud = require('wx-server-sdk')
 const http = require('http');
 
 cloud.init({
-  env: cloud.DYNAMIC_CURRENT_ENV
+  // env: cloud.DYNAMIC_CURRENT_ENV
+  env: 'jike-v2-hnr1l'
 })
 
 const db = cloud.database()
