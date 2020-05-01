@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "wx-server-sdk": "latest",
-    "cheerio": "latest"
+    "cheerio": "latest",
+    "zlib": "latest"
   }
 }

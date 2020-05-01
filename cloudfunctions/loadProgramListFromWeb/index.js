@@ -3,6 +3,8 @@ const cloud = require('wx-server-sdk')
 const http = require('http')
 const https = require('https')
 const cheerio = require('cheerio')
+const zlib = require('zlib')
+const url = require('url')
 
 const nbeMap = {
   'nbe-wlx': 'physics',
@@ -14,8 +16,9 @@ const nbeMap = {
 }
 
 cloud.init({
-  env: cloud.DYNAMIC_CURRENT_ENV
+  // env: cloud.DYNAMIC_CURRENT_ENV
   // env: 'jike-v2-hnr1l'
+  env: 'jike-mr6e0'
 })
 
 const db = cloud.database()
@@ -86,7 +89,7 @@ exports.main = async(event, context) => {
             return cloud.uploadFile({
               fileContent: Buffer.from(imageData, 'binary'),
               cloudPath: imageUrl.substr(imageUrl.lastIndexOf('/') + 1)
-            }).then(res=>{
+            }).then(res => {
               return {
                 title: $(item).find('h3').text().trim(),
                 image: res.fileID,
@@ -106,16 +109,89 @@ exports.main = async(event, context) => {
           })
         })
       })
+    } else if (channel.type == 'turing') {
+      const options = {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Safari/605.1.15',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'Accept-Language': 'zh-cn',
+          'Connection': 'keep-alive',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'Host': 'amturing.acm.org'
+        },
+        gzip: true
+      }
+      const turingUrl = 'https://amturing.acm.org/byyear.cfm'
+      return request(turingUrl, 'binary', options, unGzip).then(html => {
+        return new Promise((resolve, reject) => {
+          const $ = cheerio.load(html)
+          $('#content > div > ul > li').each((index, item) => {
+            const year = $(item).find('span').text()
+            if (year.indexOf(date) >= 0) {
+              const programList = {
+                channelCode,
+                date,
+                dateType: channel.dateType,
+                createTime: new Date()
+              }
+              // 拿到列表
+              const listPromise = $(item).find('a').map((index, item) => {
+                const programUrl = url.resolve(turingUrl, $(item).attr('href'))
+                return request(programUrl, 'binary', options, unGzip).then(html => {
+                  const $ = cheerio.load(html)
+                  programList.desc = $('#content > div > div.col.col2 > div.citation > p').text()
+                  const imageUrl = $('#content > div > div.col.col1 > div > a > img').attr('src')
+                  return downImage(url.resolve(programUrl, imageUrl), options).then(res=>{
+                    return {
+                      title: $(item).text(),
+                      image: res.fileID
+                    }
+                  })
+                })
+              }).get()
+              Promise.all(listPromise).then(list => {
+                programList.list = list
+                return db.collection('program_list').add({
+                  data: programList
+                }).then(res => {
+                  resolve(programList)
+                })
+              })
+              return false
+            }
+          })
+        })
+      })
     }
   })
 }
 
-const request = function(url, encoding) {
+// 本地地址：res.fileID
+const downImage = function(imageUrl, options){
+  // 下载
+  return request(imageUrl, 'binary', options).then(imageData => {
+    // 存储
+    return cloud.uploadFile({
+      fileContent: Buffer.from(imageData, 'binary'),
+      cloudPath: '' + Date.now() + '/' + imageUrl.substr(imageUrl.lastIndexOf('/') + 1)
+    })
+  })
+}
+
+const unGzip = function(gzipData) {
+  return new Promise((resolve, reject) => {
+    zlib.gunzip(Buffer.from(gzipData, 'binary'), (err, result) => {
+      resolve(result.toString())
+    })
+  })
+}
+
+const request = function(url, encoding, options = {}, pipe) {
   console.log(url)
   const proc = url.startsWith('https') ? https : http
   return new Promise((resolve, reject) => {
-    proc.get(url, function(res) {
-      if (encoding){
+    proc.get(url, options, function(res) {
+      if (encoding) {
         res.setEncoding(encoding)
       }
       var str = "";
@@ -123,7 +199,13 @@ const request = function(url, encoding) {
         str += chunk; //监听数据响应，拼接数据片段
       })
       res.on("end", function() {
-        resolve(str)
+        if (pipe) {
+          pipe(str).then(result => {
+            resolve(result)
+          })
+        } else {
+          resolve(str)
+        }
       })
     })
   })
