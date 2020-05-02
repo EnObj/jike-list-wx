@@ -16,9 +16,9 @@ const nbeMap = {
 }
 
 cloud.init({
-  // env: cloud.DYNAMIC_CURRENT_ENV
+  env: cloud.DYNAMIC_CURRENT_ENV
   // env: 'jike-v2-hnr1l'
-  env: 'jike-mr6e0'
+  // env: 'jike-mr6e0'
 })
 
 const db = cloud.database()
