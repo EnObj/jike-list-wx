@@ -94,6 +94,7 @@ Page({
   onReachBottom: function() {
     if(this.data.more){
       this.loadChannels()
+      this.loadFocusedMap()
     }
   },
 
