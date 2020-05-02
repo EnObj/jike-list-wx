@@ -19,7 +19,9 @@
     </view>
     <view wx:for="{{list}}" wx:key="_id">
       <view style="padding:10px 10px 0">
-        <channel-logo channel-code="{{item.channelCode}}" />
+        <navigator url="/pages/channel/channel?channel={{item.channelCode}}&date={{item.date}}">
+          <channel-logo channel-code="{{item.channelCode}}" />
+        </navigator>
       </view>
       <program-list program-list="{{item}}" />
     </view>
