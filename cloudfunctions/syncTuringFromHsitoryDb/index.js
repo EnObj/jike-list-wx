@@ -13,7 +13,7 @@ const historyDb = cloud.database({
 // 云函数入口函数
 exports.main = async (event, context) => {
   const query = historyDb.collection('program_list').where({
-    channelCode: 'turing'
+    channelCode: 'usa-ceo'
   })
   return query.count().then(res => {
     console.log(res.total)

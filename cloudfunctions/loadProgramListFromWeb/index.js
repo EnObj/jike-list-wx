@@ -5,6 +5,7 @@ const https = require('https')
 const cheerio = require('cheerio')
 const zlib = require('zlib')
 const url = require('url')
+const iconv = require('iconv-lite')
 
 const nbeMap = {
   'nbe-wlx': 'physics',
@@ -16,9 +17,9 @@ const nbeMap = {
 }
 
 cloud.init({
-  env: cloud.DYNAMIC_CURRENT_ENV
+  // env: cloud.DYNAMIC_CURRENT_ENV
   // env: 'jike-v2-hnr1l'
-  // env: 'jike-mr6e0'
+  env: 'jike-mr6e0'
 })
 
 const db = cloud.database()
@@ -141,7 +142,7 @@ exports.main = async(event, context) => {
                   const $ = cheerio.load(html)
                   programList.desc = $('#content > div > div.col.col2 > div.citation > p').text()
                   const imageUrl = $('#content > div > div.col.col1 > div > a > img').attr('src')
-                  return downImage(url.resolve(programUrl, imageUrl), options).then(res=>{
+                  return downImage(url.resolve(programUrl, imageUrl), options).then(res => {
                     return {
                       title: $(item).text(),
                       image: res.fileID
@@ -162,12 +163,45 @@ exports.main = async(event, context) => {
           })
         })
       })
+    } else if (channel.type == 'ceo') {
+      if (channel.code == 'usa-ceo') {
+        return request('http://114.xixik.com/potus/#anchor3', 'binary', null, iconvDecode('GBK')).then(html => {
+          return new Promise((resolve, reject) => {
+            const $ = cheerio.load(html)
+            $('body > div.body > div:nth-child(9) > div.custom_content > div > table > tbody > tr').each((index, item) => {
+              const tds = $(item).find('td')
+              if (+tds.first().text().trim() == date) {
+                downImage(tds.eq(2).find('img').first().attr('src')).then(res => {
+                  const programList = {
+                    channelCode,
+                    date,
+                    dateType: channel.dateType,
+                    createTime: new Date(),
+                    desc: tds.eq(5).text().trim(),
+                    list: [{
+                      title: tds.eq(3).text().trim(),
+                      image: res.fileID,
+                      remarks: [tds.eq(1).text().trim(), tds.eq(4).text().trim()]
+                    }]
+                  }
+                  db.collection('program_list').add({
+                    data: programList
+                  }).then(res => {
+                    resolve(programList)
+                  })
+                  // resolve(programList)
+                })
+              }
+            })
+          })
+        })
+      }
     }
   })
 }
 
 // 本地地址：res.fileID
-const downImage = function(imageUrl, options){
+const downImage = function(imageUrl, options) {
   // 下载
   return request(imageUrl, 'binary', options).then(imageData => {
     // 存储
@@ -184,6 +218,12 @@ const unGzip = function(gzipData) {
       resolve(result.toString())
     })
   })
+}
+
+const iconvDecode = function(type){
+  return function (gzipData){
+    return Promise.resolve(iconv.decode(Buffer.from(gzipData, 'binary'), type))
+  }
 }
 
 const request = function(url, encoding, options = {}, pipe) {
