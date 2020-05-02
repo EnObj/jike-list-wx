@@ -1,0 +1,9 @@
+<view style="margin-right:10px;">
+  <scroll-view scroll-x enable-flex style="display:flex;align-items: flex-start;" scroll-into-view="th-{{locDate}}">
+    <view wx:for="{{thList}}" wx:key="*this" style="flex:none;padding:5px 10px;" id="th-{{item}}" bindtap="switchDate" data-th="{{item}}">
+      <view class="date-list-item {{item == currentTh ? 'current-date-item':''}}">
+        <view>第{{item}}{{thName}}</view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

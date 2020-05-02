@@ -4,6 +4,7 @@
     "program-list": "../component/program/program-list",
     "day-selector": "../component/program/day-selector",
     "year-selector": "../component/program/year-selector",
+    "th-selector": "../component/program/date-selector//th-selector",
     "channel-logo": "../component/channel/channel-logo"
   },
   "disableScroll": true,

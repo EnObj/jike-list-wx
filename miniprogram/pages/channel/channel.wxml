@@ -8,6 +8,7 @@
     <view class="channel-date">
       <day-selector loc-date="{{options.date}}" bindswitchdate="switchDate" wx:if="{{channel.dateType=='day'}}" />
       <year-selector loc-date="{{options.date}}" bindswitchdate="switchDate" wx:if="{{channel.dateType=='year'}}" start="{{channel.start}}" end="{{channel.end}}"/>
+      <th-selector loc-date="{{options.date}}" bindswitchdate="switchDate" wx:if="{{channel.dateType=='th'}}" end="{{channel.end}}" th-name="{{channel.thName}}"/>
     </view>
     <view class="padding-box">
       <channel focused="{{focusedMap[channel.code]}}" channel="{{channel}}" user-profile-id="{{userProfile._id}}" />

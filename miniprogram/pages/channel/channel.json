@@ -2,6 +2,7 @@
   "usingComponents": {
     "day-selector": "../../component/program/day-selector",
     "year-selector": "../../component/program/year-selector",
+    "th-selector": "../../component/program/date-selector//th-selector",
     "program-list": "../../component/program/program-list",
     "channel": "../../component/channel/channel"
   },
