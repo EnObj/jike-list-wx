@@ -7,7 +7,8 @@
     "pages/channel/channel",
     "pages/search/search-day",
     "pages/search/search-year",
-    "pages/search/search-channel"
+    "pages/search/search-channel",
+    "pages/search/search-other"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

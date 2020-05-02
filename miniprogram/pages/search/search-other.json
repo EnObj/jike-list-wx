@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "search-other": "../../component/search/search-other",
+    "search-inp": "../../component/search/search-inp"
+  },
+  "navigationBarTitleText": "搜索"
+}

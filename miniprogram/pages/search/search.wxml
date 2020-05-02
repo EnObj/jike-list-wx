@@ -12,4 +12,7 @@
   <view>
     <search-year keyword="{{keyword}}" mode="card" />
   </view>
+  <view>
+    <search-other keyword="{{keyword}}" mode="card" />
+  </view>
 </view>

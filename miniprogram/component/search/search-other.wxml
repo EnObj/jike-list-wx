@@ -1,0 +1,44 @@
+<template is="{{mode}}" data="{{list,keyword,count}}">
+</template>
+
+<template name="card">
+  <view class="padding-box" style="padding:0px;">
+    <view class="flex-between card-title">
+      <view>其他</view>
+      <view class="flex-between not-importent">
+        <navigator url="/pages/search/search-other?keyword={{keyword}}" hidden="{{count==list.length}}">
+          <view style="color:gray;">更多</view>
+        </navigator>
+      </view>
+    </view>
+    <view wx:for="{{list}}" wx:key="_id">
+      <view style="padding:10px 10px 0" class="flex-between">
+        <navigator url="/pages/channel/channel?channel={{item.channelCode}}&date={{item.date}}">
+          <channel-logo channel-code="{{item.channelCode}}" />
+        </navigator>
+        <view class="not-importent">{{item.date}}</view>
+      </view>
+      <program-list program-list="{{item}}" />
+    </view>
+    <view class="not-importent message" hidden="{{count}}">
+      没有结果
+    </view>
+  </view>
+</template>
+
+<template name="page">
+  <view wx:for="{{list}}" wx:key="_id" class="channel-result">
+    <view class="flex-between channel-result-title">
+      <view>
+        <navigator url="/pages/channel/channel?channel={{item.channelCode}}&date={{item.date}}">
+          <channel-logo channel-code="{{item.channelCode}}" />
+        </navigator>
+      </view>
+      <view class="not-importent">{{item.date}}</view>
+    </view>
+    <program-list program-list="{{item}}" />
+  </view>
+  <view class="not-importent message" hidden="{{count}}">
+    没有结果
+  </view>
+</template>

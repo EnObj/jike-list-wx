@@ -1,0 +1,10 @@
+@import "./../style/my-style.wxss";
+.channel-result{
+  margin: 10px 10px 20px;
+  background: #fff;
+  border-radius: 5px;
+}
+
+.channel-result-title{
+  padding: 10px 10px 0;
+}

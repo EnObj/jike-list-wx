@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "program-list": "../../component/program/program-list",
+    "channel-logo": "../../component/channel/channel-logo"
+  }
+}

@@ -1,0 +1,5 @@
+<search-inp keyword="{{options.keyword}}" bindkeywordchange="search" bindfocus="focus" />
+
+<view wx:if="{{keyword}}">
+  <search-other keyword="{{keyword}}" mode="page" more="{{more}}" />
+</view>
