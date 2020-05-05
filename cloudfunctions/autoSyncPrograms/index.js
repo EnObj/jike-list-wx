@@ -27,13 +27,13 @@ const doSyncOneByOne = function (channels, week){
     return loadProgramListFromWeb(channel, date.int8Date)
   })
   return Promise.all(promises).then(res=>{
-    doSyncOneByOne(channels, week)
+    return doSyncOneByOne(channels, week)
   })
 }
 
-const loadProgramListFromWeb = function (channel, date){
+const loadProgramListFromWeb = async(channel, date)=>{
   // 不等待结果
-  cloud.callFunction({
+  await cloud.callFunction({
     name:'loadProgramListFromWeb',
     data:{
       channelCode: channel.code,
