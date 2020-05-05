@@ -32,7 +32,7 @@ const doSyncOneByOne = function (channels, week){
 }
 
 const loadProgramListFromWeb = async(channel, date)=>{
-  // 不等待结果
+  // 此处必须加await不然云端调用不成功
   await cloud.callFunction({
     name:'loadProgramListFromWeb',
     data:{
