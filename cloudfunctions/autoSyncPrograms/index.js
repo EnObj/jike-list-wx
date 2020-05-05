@@ -4,6 +4,7 @@ const http = require('http');
 
 cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
+  // env: 'jike-mr6e0'
 })
 
 const db = cloud.database()
@@ -11,19 +12,38 @@ const db = cloud.database()
 // 云函数入口函数
 exports.main = async(event, context) => {
   var week = initDateList()
-  var promises = []
   return loadAllChannels([]).then(channels => {
-    channels.forEach(channel => {
-      week.dateList.forEach(date => {
-        console.log('正在处理：' + channel.code + ' ' + date.int8Date)
-        var promise = syncProgrtams(channel, date.int8Date)
-        promises.push(promise)
-      })
-    })
-    return Promise.all(promises)
+    return doSyncOneByOne(channels, week)
   })
 }
 
+const doSyncOneByOne = function (channels, week){
+  if (!channels.length){
+    return Promise.resolve()
+  }
+  const channel = channels.pop()
+  const promises = week.dateList.map(date => {
+    console.log('正在处理：' + channel.code + ' ' + date.int8Date)
+    return loadProgramListFromWeb(channel, date.int8Date)
+  })
+  return Promise.all(promises).then(res=>{
+    doSyncOneByOne(channels, week)
+  })
+}
+
+const loadProgramListFromWeb = function (channel, date){
+  // 不等待结果
+  cloud.callFunction({
+    name:'loadProgramListFromWeb',
+    data:{
+      channelCode: channel.code,
+      date
+    }
+  })
+  Promise.resolve()
+}
+
+// 废弃，使用云函数loadProgramListFromWeb
 const syncProgrtams = function(channel, date) {
   const channelCode = channel.code
   return new Promise((resolve, reject) => {
