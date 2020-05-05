@@ -40,7 +40,7 @@ const loadProgramListFromWeb = function (channel, date){
       date
     }
   })
-  Promise.resolve()
+  return Promise.resolve()
 }
 
 // 废弃，使用云函数loadProgramListFromWeb
